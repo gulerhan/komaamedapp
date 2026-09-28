@@ -1,0 +1,410 @@
+{
+  "Common": {
+    "brand": "Koma Amed",
+    "placeholder": "PLACEHOLDER",
+    "learnMore": "Explore",
+    "viewAll": "View all",
+    "close": "Close",
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Meta": {
+    "title": "Koma Amed",
+    "template": "%s · Koma Amed",
+    "description": "Koma Amed — a Kurdish folk group founded in 1988 in Ankara by medical students. Kulîlka Azadî, Agir û Mirov, Dergûş."
+  },
+  "MetaHome": {
+    "title": "Koma Amed — the voice of Amed",
+    "description": "Ankara, 1988. Three studio albums, a 2023 return. Musicians, works, and history of Koma Amed."
+  },
+  "MetaMembers": {
+    "title": "About us",
+    "description": "The current company of Koma Amed and founder Evdılmelik Şexbekir. Serhat Karakaş, Memo Gül, Serap Sönmez, Süleyman Gültekin, Fikri Kutlay, Ahmet Kaya."
+  },
+  "MetaMember": {
+    "title": "{name} · Musician",
+    "description": "{name} — {role}. Musician of Koma Amed."
+  },
+  "MetaProducts": {
+    "title": "Works",
+    "description": "Koma Amed vinyl and apparel catalogue. Nothing is sold here — prices are catalogue estimates."
+  },
+  "MetaAbout": {
+    "title": "The story",
+    "description": "From Ankara 1988 to MKM, Dergûş, and the 2023 return: the documented history of Koma Amed."
+  },
+  "MetaContact": {
+    "title": "Contact",
+    "description": "Get in touch with Koma Amed for concerts, press, and collaboration."
+  },
+  "Nav": {
+    "home": "Home",
+    "members": "About us",
+    "products": "Works",
+    "about": "Story",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "kicker": "1988 · Amed",
+    "ctaPrimary": "About us",
+    "scroll": "Scroll",
+    "subtitle": "From medical students to the stage.."
+  },
+  "Player": {
+    "label": "Koma Amed vinyl player",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next",
+    "previous": "Previous",
+    "dismiss": "Close vinyl",
+    "restore": "Open vinyl"
+  },
+  "Intro": {
+    "eyebrow": "01 — The group",
+    "title": "A voice that rises in Amed\nand lands on stage.",
+    "body": "Koma Amed was founded in 1988 in Ankara by medical students. It joined traditional Kurdish melody to jazz and folk arrangement, and left three studio albums in years when Kurdish was banned. In 2023 six musicians returned to the stage.",
+    "stat1Value": "1988",
+    "stat1Label": "Founded",
+    "stat2Value": "3",
+    "stat2Label": "Studio albums",
+    "stat3Value": "2023",
+    "stat3Label": "Return"
+  },
+  "Marquee": {
+    "text": "KOMA AMED · KULÎLKA AZADÎ · AGIR Û MIROV · DERGÛŞ · HOY MEMO · ÊVARÊ · AMED ·"
+  },
+  "FeaturedMembers": {
+    "eyebrow": "02 — Six musicians",
+    "title": "On stage",
+    "cta": "About us"
+  },
+  "FeaturedProducts": {
+    "eyebrow": "03 — Catalogue",
+    "title": "Products",
+    "cta": "Open the catalogue"
+  },
+  "Music": {
+    "eyebrow": "04 — Listen",
+    "title": "From Dergûş to the stage",
+    "body": "Hoy Memo, Êvarê, Amedîye and the Cologne 2024 live session are on Spotify — the widest path to the 1997 album and the return.",
+    "spotify": "Spotify",
+    "youtube": "YouTube",
+    "placeholder": "Embed coming soon"
+  },
+  "Footer": {
+    "tagline": "The voice of Amed. From 1988 to now.",
+    "rights": "All rights reserved.",
+    "note": "1988 · Amed"
+  },
+  "MembersPage": {
+    "eyebrow": "The lineup",
+    "title": "About us",
+    "subtitle": "Koma Amed was founded in 1988 in Ankara by medical students.\nOn stage today: Serhat Karakaş, Memo Gül, Serap Sönmez, Süleyman Gültekin, Fikri Kutlay and Ahmet Kaya.\nFounder Evdılmelik Şexbekir (Melek) was the first album’s vocalist; he died in 1992."
+  },
+  "Member": {
+    "badge": "Profile",
+    "born": "Born",
+    "role": "Role",
+    "gallery": "Stage and road",
+    "story": "Life story",
+    "next": "Next",
+    "prev": "Previous",
+    "back": "All musicians",
+    "quoteLabel": "Words"
+  },
+  "MembersContent": {
+    "serhat-karakas": {
+      "name": "Serhat Karakaş",
+      "role": "Vocal",
+      "shortBio": "From Doğubeyazıt. He moved from Koma Dengê Azadî to Koma Amed; a founder of Çar Newa.",
+      "quote": "We have grown a little older, but our songs are still young.",
+      "birthPlace": "Doğubeyazıt, Ağrı",
+      "story": "Serhat Karakaş, known on stage as Serhat Çarnewa, comes from a dengbêj family in Doğubeyazıt, Ağrı. He studied sociology at Istanbul University in 1984. He began with Koma Dengê Azadî and joined Koma Amed in the early 1990s. After the group dispersed he founded Çar Newa with Süleyman Gültekin, Dr. Ahmet Kaya and Dr. Fikri Kutlay, appearing on Sî (2000), Mak (2003) and Ziz (2007). Able to travel to Turkey, he became a bridge in the 2023 reunion. He sang in Paris and Cologne in 2024 and at Diyarbakır Newroz Park in 2025.",
+      "timeline": [
+        {
+          "year": "1984",
+          "title": "Istanbul",
+          "text": "Sociology at Istanbul University. Dengbêj tradition from the family."
+        },
+        {
+          "year": "1990s",
+          "title": "Koma Amed",
+          "text": "Left Koma Dengê Azadî and joined Koma Amed."
+        },
+        {
+          "year": "2000",
+          "title": "Çar Newa",
+          "text": "Sî, then Mak and Ziz. European stages."
+        },
+        {
+          "year": "2023–25",
+          "title": "Return",
+          "text": "Êvarê, Paris, Cologne and Amed. He said they sang Teşî together on stage for the first time."
+        }
+      ]
+    },
+    "memo-gul": {
+      "name": "Memo Gül",
+      "role": "Bağlama, vocal",
+      "shortBio": "Joined in the early 1990s. The voice that announced the 2023 return.",
+      "quote": "Coming together again as Koma Amed excited us as much as it did our listeners.",
+      "birthPlace": "",
+      "story": "Memo Gül (Mehmet Gül) joined Koma Amed in the early 1990s on bağlama and vocal, during the Istanbul MKM years. After the group dispersed he continued in Europe; in a 2025 interview he said he had lived in Europe for thirty years. On 1 February 2023 he shared the acoustic Êvarê recording and announced the reunion. He played saz and sang at Paris Cirque d’Hiver, on the Cologne live album, and at the 2025 Diyarbakır concert. He has said his greatest wish is for every member to stand on an Amed stage together.",
+      "timeline": [
+        {
+          "year": "1990s",
+          "title": "Koma Amed",
+          "text": "Bağlama and vocal. MKM Istanbul."
+        },
+        {
+          "year": "2023",
+          "title": "Êvarê",
+          "text": "Announced the reunion. Acoustic session with Serhat, Süleyman and Mazlum Rewşen."
+        },
+        {
+          "year": "2024–25",
+          "title": "Stage",
+          "text": "Paris, Cologne, Diyarbakır Newroz Park."
+        }
+      ]
+    },
+    "serap-sonmez": {
+      "name": "Serap Sönmez",
+      "role": "Vocal, guitar",
+      "shortBio": "Istanbul, 1973. MKM, Koma Mezrabotan, Koma Amed from 1995. One of four vocalists of the return concerts.",
+      "quote": "",
+      "birthPlace": "Istanbul",
+      "story": "Serap Sönmez was born in Istanbul in 1973. She began music work when the Mesopotamia Culture Center opened in 1991. In 1993 she sang solo vocal on Koma Mezrabotan’s album Kedkar. She joined Koma Amed in early 1995, on vocal and acoustic/rhythm guitar through the Dergûş years. She also sang and played guitar in the women’s group Koma Asmin. In 2000 she wrote the music for Teatra Jiyana Nû’s play Ta and won Best Theatre Music at the 2nd Berlin Kurdish Theatre Festival. In 2005 she studied voice with Cavit Murtezaoğlu; her first solo concert was in 2006. She was one of the four vocalists in Paris and Cologne in 2024 and at Diyarbakır Newroz Park in 2025.",
+      "timeline": [
+        {
+          "year": "1973",
+          "title": "Istanbul",
+          "text": "Born."
+        },
+        {
+          "year": "1991",
+          "title": "MKM",
+          "text": "Music work at the Mesopotamia Culture Center."
+        },
+        {
+          "year": "1993",
+          "title": "Kedkar",
+          "text": "Solo vocal on the Koma Mezrabotan album."
+        },
+        {
+          "year": "1995",
+          "title": "Koma Amed",
+          "text": "Vocal and acoustic/rhythm guitar. The Dergûş period."
+        },
+        {
+          "year": "2000–06",
+          "title": "Stage and solo",
+          "text": "Theatre-music prize in Berlin. First solo concert in 2006."
+        },
+        {
+          "year": "2024–25",
+          "title": "Return",
+          "text": "Paris Cirque d’Hiver, Cologne Sartory Säle, Diyarbakır Newroz Park."
+        }
+      ]
+    },
+    "suleyman-gultekin": {
+      "name": "Süleyman Gültekin",
+      "role": "Vocal, arranger",
+      "shortBio": "From Tuzluca. A founder of Çar Newa; long based in Germany and Paris.",
+      "quote": "Perhaps the thing we want most in this life is to stand on stage in Amed with every member of Koma Amed.",
+      "birthPlace": "Tuzluca, Iğdır",
+      "story": "Süleyman Gültekin, known on stage as Süleyman Çarnewa, is from Tuzluca, Iğdır. He joined Koma Amed in the 1990s as vocalist, composer and arranger. After the group dispersed he helped found Çar Newa. He has lived for years between Germany and Paris and has said he cannot easily return to Turkey. He was among those who sang Êvarê at the 2023 reunion. He performed in Paris and Cologne in 2024. In NuMedya24 he named a full Amed concert with every member as the shared dream.",
+      "timeline": [
+        {
+          "year": "1990s",
+          "title": "Koma Amed",
+          "text": "Vocal, composition, arrangement. MKM Istanbul."
+        },
+        {
+          "year": "2000",
+          "title": "Çar Newa",
+          "text": "Sî, Mak, Ziz. European stages."
+        },
+        {
+          "year": "2023–24",
+          "title": "Return",
+          "text": "Êvarê. Paris and Cologne. An Amed stage as shared wish."
+        }
+      ]
+    },
+    "fikri-kutlay": {
+      "name": "Fikri Kutlay",
+      "role": "Composition, collecting, physician",
+      "shortBio": "Founding member. Cardiovascular surgeon; accordion and cura. Solo album in 2016.",
+      "quote": "",
+      "birthPlace": "",
+      "story": "Dr. Fikri Kutlay is a founding member of Koma Amed, a composer and a collector of songs. He graduated from Hacettepe University Faculty of Medicine in 1990 and completed cardiovascular surgery at Istanbul University Institute of Cardiology in 1997. He worked as an operating surgeon in Batman from 2011 to 2017 and still practises in Istanbul. Compositions such as Kulîlka Azadî, Ronahî-Berîvan, Destana Silopî and Gurbet, and collections such as Hoy Memo and Amedîye, are tied to his work. He plays accordion and cura. In 2016 Kom Müzik released Stranên Fikri Kutlay. He appeared on Çar Newa’s Sî, Mak and Ziz, and is in the 2024–2026 stage lineup.",
+      "timeline": [
+        {
+          "year": "1988",
+          "title": "Founding",
+          "text": "The core of Koma Amed with fellow medical students in Ankara."
+        },
+        {
+          "year": "1990",
+          "title": "Hacettepe",
+          "text": "Medical degree. The Kulîlka Azadî sessions in the same years."
+        },
+        {
+          "year": "1997",
+          "title": "Surgery",
+          "text": "Cardiovascular surgery. The same period as Dergûş."
+        },
+        {
+          "year": "2011–17",
+          "title": "Batman",
+          "text": "Operating surgeon. 2016: Stranên Fikri Kutlay."
+        },
+        {
+          "year": "2024–",
+          "title": "Stage",
+          "text": "On the returning lineup. Still a physician in Istanbul."
+        }
+      ]
+    },
+    "ahmet-kaya": {
+      "name": "Ahmet Kaya",
+      "role": "Vocal, physician, founding member",
+      "shortBio": "Erzurum, 1968. Hacettepe medicine. Not the famous singer of the same name.",
+      "quote": "",
+      "birthPlace": "Erzurum",
+      "story": "Dr. Ahmet Kaya was born in Erzurum in 1968. As a Hacettepe medical student he founded Koma Amed with Evdılmelik Şexbekir and Fikri Kutlay. He sang, collected and composed on all three studio albums. He is not the well-known singer Ahmet Kaya; Koma Amed’s Ahmet Kaya is a physician who has practised in Istanbul. After the group dispersed he appeared on Çar Newa’s Sî, Mak and Ziz. From 2011 he contributed words, music and vocal to albums by Mehmet Akbaş, Agit Işık, Rewşan Çeliker and Tara Mamedova. In 2020 he composed Bildiğin Halde, from Nâzım Hikmet, for health workers lost in the pandemic, and began recording Payîza Derengî (Late Autumn). He is on the post-2024 stage lineup.",
+      "timeline": [
+        {
+          "year": "1968",
+          "title": "Erzurum",
+          "text": "Born. Then Hacettepe Medicine and the Ankara stage."
+        },
+        {
+          "year": "1988",
+          "title": "Koma Amed",
+          "text": "Founding lineup. Three albums: Kulîlka Azadî, Agir û Mirov, Dergûş."
+        },
+        {
+          "year": "2000–11",
+          "title": "Çar Newa",
+          "text": "Sî, Mak, Ziz."
+        },
+        {
+          "year": "2020",
+          "title": "Bildiğin Halde",
+          "text": "In memory of health workers. Work on Payîza Derengî."
+        }
+      ]
+    },
+    "evdilmelik-sexbekir": {
+      "name": "Evdılmelik Şexbekir",
+      "role": "Founder, first vocalist",
+      "shortBio": "Melek. From Syria to Hacettepe. The Kurdish Bella Ciao. 1992, Bitlis.",
+      "quote": "",
+      "birthPlace": "Syria",
+      "story": "Evdılmelik Şexbekir is remembered as Melek or Melek Şengal. He came from Syria to Hacettepe Faculty of Medicine in Ankara. A student of painting, poetry and music, he wrote verse even though he learned Turkish later. In 1988 he formed the core of Koma Amed with Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Fikri Kutlay, Mustafa Kart and Ahmet Kaya. He was the principal vocalist on the first album, Kulîlka Azadî, and made the first Kurdish version of Bella Ciao as Çav Bella. In February 1990 he recorded in Mete Artun’s studio in Ankara Bahçelievler, in two days. In 1991, under pressure and detention, he moved to Çapa Medicine; that September he joined the armed struggle. In 1992 he died in Bitlis, aged twenty-four. After his death the group continued in Istanbul at the Mesopotamia Culture Center.",
+      "timeline": [
+        {
+          "year": "1988",
+          "title": "Ankara",
+          "text": "Hacettepe medical student. Founding of Koma Amed."
+        },
+        {
+          "year": "1990",
+          "title": "Kulîlka Azadî",
+          "text": "Bahçelievler, Mete Artun studio. Çav Bella, Telli Telli. The album was named that night."
+        },
+        {
+          "year": "1991",
+          "title": "Çapa",
+          "text": "Moved to Çapa Medicine in Istanbul under pressure. Joined the armed struggle in September."
+        },
+        {
+          "year": "1992",
+          "title": "Bitlis",
+          "text": "Died at twenty-four. The group moved to MKM."
+        }
+      ]
+    }
+  },
+  "ProductsPage": {
+    "eyebrow": "Catalogue",
+    "title": "Products",
+    "subtitle": "One vinyl, one shirt. Nothing is sold here — prices are catalogue estimates.",
+    "all": "All",
+    "inquire": "Inquire",
+    "close": "Close",
+    "priceNote": "Price is a catalogue estimate; nothing is sold on this site"
+  },
+  "Categories": {
+    "album": "Albums",
+    "vinyl": "Records",
+    "apparel": "Apparel"
+  },
+  "ProductsContent": {
+    "kulilka-azadi": {
+      "name": "Kulîlka Azadî",
+      "description": "Flower of Freedom. Recorded in 1990; widely dated 1992. Circulated first as a pirate cassette while Kurdish was banned. Çav Bella, Telli Telli; the title from a poem by Muzaffer İlhan Erdost. Lineup: Evdılmelik Şexbekir, Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Fikri Kutlay, Mustafa Kart, Ahmet Kaya."
+    },
+    "agir-u-mirov": {
+      "name": "Agir û Mirov",
+      "description": "Fire and Human. Kom Müzik, 1995. Marches, folk songs and pieces in several Kurdish dialects. The Serhildan tour in Italy the same period: Rome, Palermo, Catania, Trieste."
+    },
+    "dergus": {
+      "name": "Dergûş",
+      "description": "Cradle. Ses Plak 1997, Kom Müzik 1998. The best-known album; period sources speak of 200–400 thousand copies. Hoy Memo, Êvarê, Amedîye, Teşî. In 1999 Foreign Minister İsmail Cem gave the album to EU ministers."
+    },
+    "cologne-2024": {
+      "name": "Live Session, Cologne 2024",
+      "description": "5 July 2024, Sartory Säle, Cologne. Released 10 August 2024. Seventeen live pieces including Amedîye, Êvare, Hoy Memo, Kulîlka Azadî, Teşî and Newroz e."
+    },
+    "dergus-vinyl": {
+      "name": "Dergûş — LP",
+      "description": "Vinyl of the best-known album. Hoy Memo, Êvarê, Amedîye. Not for sale — catalogue only."
+    },
+    "koma-tee": {
+      "name": "Koma Amed tee",
+      "description": "Shirt with the Cologne 2024 group photo. Not for sale — catalogue only."
+    }
+  },
+  "About": {
+    "eyebrow": "Story",
+    "title": "A place’s name\nbecomes a voice’s name.",
+    "lead": "Koma Amed was founded in 1988 in Ankara by medical students. The name is Amed, the Kurdish name of Diyarbakır — even though none of the founders were from there.",
+    "p1": "The core formed when Evdılmelik Şexbekir (Melek), who had come from Syria to Hacettepe Medicine, met Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Fikri Kutlay, Mustafa Kart and Ahmet Kaya. The name is tied to Selçuk Mızraklı and a house in Ankara. The first album, Kulîlka Azadî, was recorded in two days in February 1990 at Mete Artun’s studio in Bahçelievler and first copied in secret because Kurdish was banned. Şexbekir translated Bella Ciao as Çav Bella; Telli Telli, after Murathan Mungan and Manos Loizos, also helped open the studio door.",
+    "p2": "Şexbekir joined the armed struggle in 1991 and died in Bitlis in 1992. The group moved to Istanbul and worked at the Mesopotamia Culture Center. Serhat Karakaş, Merdan Zırav, Memo Gül, Mehmet Kaya, Birkan Çelik, then Serap Sönmez, Süleyman Gültekin and Leyla joined. Agir û Mirov (1995) and the Italian Serhildan tour; Dergûş (1997) reached the widest audience. Exile split the lineup. Serhat, Süleyman, Ahmet Kaya and Fikri Kutlay released Sî, Mak and Ziz as Çar Newa.",
+    "p3": "On 1 February 2023 the acoustic Êvarê announced the reunion. 1 June 2024, Paris Cirque d’Hiver; 5 July 2024, Cologne and the live album; 25 October 2025, Diyarbakır Newroz Park. The stage now holds Memo Gül, Serhat Karakaş, Süleyman Gültekin, Fikri Kutlay, Serap Sönmez and Ahmet Kaya. Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Mustafa Kart, Merdan Zırav, Mehmet Kaya, Birkan Çelik, Leyla and 2023 guitarist Mazlum Rewşen appear in the sources; their life stories are not invented here.",
+    "chapter1": "Ankara",
+    "chapter1Body": "1988. Medical school, a banned language, two days in a studio. That night the album was named Kulîlka Azadî — Flower of Freedom.",
+    "chapter2": "MKM",
+    "chapter2Body": "Istanbul, Mesopotamia Culture Center. Second and third albums, the Italian tour, then exile. Çar Newa continued in Europe.",
+    "chapter3": "Return",
+    "chapter3Body": "2023 Êvarê. 2024 Paris and Cologne. 2025 Amed. The songs did not age; the lineup stood on the same stage again."
+  },
+  "Contact": {
+    "eyebrow": "Write",
+    "title": "Stage, press,\ncollaboration.",
+    "body": "The form is validated on the client. If a Formspree id is set, it goes there; otherwise your mail client opens.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Your message is ready. Thank you.",
+    "errorName": "Please write your name.",
+    "errorEmail": "Enter a valid email.",
+    "errorMessage": "The message must be at least 10 characters.",
+    "mailtoSubject": "Koma Amed — contact"
+  },
+  "Preloader": {
+    "label": "Loading"
+  },
+  "NotFound": {
+    "title": "This page is silent.",
+    "body": "The path you asked for is not on this stage. You can return home.",
+    "cta": "Home"
+  }
+}

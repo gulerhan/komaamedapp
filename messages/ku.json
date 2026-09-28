@@ -1,0 +1,410 @@
+{
+  "Common": {
+    "brand": "Koma Amed",
+    "placeholder": "CIHÊ RAWESTANÊ",
+    "learnMore": "Binêre",
+    "viewAll": "Hemûyan bibîne",
+    "close": "Bigire",
+    "skipToContent": "Here naverokê",
+    "openMenu": "Menuyê veke",
+    "closeMenu": "Menuyê bigire"
+  },
+  "Meta": {
+    "title": "Koma Amed",
+    "template": "%s · Koma Amed",
+    "description": "Koma Amed — koma folka kurdî ye, di 1988an de li Enqereyê xwendekarên tıbê ava kirin. Kulîlka Azadî, Agir û Mirov, Dergûş."
+  },
+  "MetaHome": {
+    "title": "Koma Amed — dengê Amedê",
+    "description": "1988 Enqere. Sê albûmên stûdyoyê, vegera 2023yan. Muzîsyen, berhem û çîroka Koma Amed."
+  },
+  "MetaMembers": {
+    "title": "Derheqê me",
+    "description": "Kadrowa îroyîn a Koma Amed û yê ku kom ava kir: Evdılmelik Şexbekir. Serhat Karakaş, Memo Gül, Serap Sönmez, Süleyman Gültekin, Fikri Kutlay, Ahmet Kaya."
+  },
+  "MetaMember": {
+    "title": "{name} · Muzîsyen",
+    "description": "{name} — {role}. Muzîsyenê Koma Amed."
+  },
+  "MetaProducts": {
+    "title": "Berhem",
+    "description": "Kataloga plak û kincên Koma Amed. Firotin tune — biha texmîn in."
+  },
+  "MetaAbout": {
+    "title": "Çîroka komê",
+    "description": "Ji Enqereya 1988an heta MKMê, ji Dergûşê heta vegera 2023yan: çîroka Koma Amed."
+  },
+  "MetaContact": {
+    "title": "Têkilî",
+    "description": "Ji bo konser, çap û hevkariyê bi Koma Amed re têkilî daynin."
+  },
+  "Nav": {
+    "home": "Destpêk",
+    "members": "Derheqê me",
+    "products": "Berhem",
+    "about": "Çîrok",
+    "contact": "Têkilî"
+  },
+  "Hero": {
+    "kicker": "1988 · Amed",
+    "ctaPrimary": "Derheqê me",
+    "scroll": "Here jêr",
+    "subtitle": "Ji xwendekarên tıbê heta sahnê.."
+  },
+  "Player": {
+    "label": "Plaka Koma Amed",
+    "play": "Lêde",
+    "pause": "Bisekine",
+    "next": "Ya din",
+    "previous": "Ya berê",
+    "dismiss": "Plakê bigire",
+    "restore": "Plakê veke"
+  },
+  "Intro": {
+    "eyebrow": "01 — Kom",
+    "title": "Dengê ku ji Amedê tê,\nli ser sahnê dikeve.",
+    "body": "Koma Amed di 1988an de li Enqereyê xwendekarên tıbê ava kirin. Stranên kurdî yên kevn bi caz û folkê re girê dan; di salên qedexeya kurdî de sê albûmên stûdyoyê hiştin. Di 2023yan de bi şeş muzîsyenan dîsa derketin ser sahnê.",
+    "stat1Value": "1988",
+    "stat1Label": "Avakirin",
+    "stat2Value": "3",
+    "stat2Label": "Albûmên stûdyoyê",
+    "stat3Value": "2023",
+    "stat3Label": "Veger"
+  },
+  "Marquee": {
+    "text": "KOMA AMED · KULÎLKA AZADÎ · AGIR Û MIROV · DERGÛŞ · HOY MEMO · ÊVARÊ · AMED ·"
+  },
+  "FeaturedMembers": {
+    "eyebrow": "02 — Şeş muzîsyen",
+    "title": "Dengên ser sahnê",
+    "cta": "Derheqê me"
+  },
+  "FeaturedProducts": {
+    "eyebrow": "03 — Katalog",
+    "title": "Berhem",
+    "cta": "Katalogê veke"
+  },
+  "Music": {
+    "eyebrow": "04 — Guhdarî",
+    "title": "Ji Dergûşê heta sahnê",
+    "body": "Hoy Memo, Êvarê, Amedîye û tomara zindî ya Köln 2024 li ser Spotifyê ne. Piştî Dergûşa 1997an, kom li vir zêdetir tê bihîstin.",
+    "spotify": "Spotify",
+    "youtube": "YouTube",
+    "placeholder": "Embed nêzîk e"
+  },
+  "Footer": {
+    "tagline": "Dengê Amedê. Ji 1988an heta îro.",
+    "rights": "Hemû maf parastî ne.",
+    "note": "1988 · Amed"
+  },
+  "MembersPage": {
+    "eyebrow": "Kadro",
+    "title": "Derheqê me",
+    "subtitle": "Koma Amed di 1988an de li Enqereyê xwendekarên tıbê ava kirin.\nÎro li ser sahnê Serhat Karakaş, Memo Gül, Serap Sönmez, Süleyman Gültekin, Fikri Kutlay û Ahmet Kaya hene.\nYê ku kom ava kir, Evdılmelik Şexbekir (Melek), solîstê albûma yekem bû; di 1992yan de jiyana xwe ji dest da."
+  },
+  "Member": {
+    "badge": "Profîl",
+    "born": "Cihê jidayikbûnê",
+    "role": "Rol",
+    "gallery": "Sahne û rê",
+    "story": "Çîroka jiyanê",
+    "next": "Pêş",
+    "prev": "Paş",
+    "back": "Hemû muzîsyen",
+    "quoteLabel": "Gotin"
+  },
+  "MembersContent": {
+    "serhat-karakas": {
+      "name": "Serhat Karakaş",
+      "role": "Deng",
+      "shortBio": "Ji Bazîdê. Ji Koma Dengê Azadî derbasî Koma Amed bû; yek ji yên ku Çar Newa ava kirin.",
+      "quote": "Em hinekî pîr bûn, lê stranên me hîn ciwan in.",
+      "birthPlace": "Bazîd, Agirî",
+      "story": "Serhat Karakaş, li ser sahnê Serhat Çarnewa, ji malbateke dengbêj a Bazîdê (Agirî) tê. Di 1984an de li Zanîngeha Stenbolê sosyolojî xwend. Muzîkê bi Koma Dengê Azadî dest pê kir; di destpêka salên 1990î de hat Koma Amed. Piştî belavbûna komê, bi Süleyman Gültekin, Dr. Ahmet Kaya û Dr. Fikri Kutlay re Çar Newa ava kir; di albûmên Sî (2000), Mak (2003) û Ziz (2007) de cih girt. Ji ber ku dikarî were Tirkiyeyê, di yekbûna 2023yan de bû pira. Di 2024an de li Parîs û Kölnê, di 2025an de li Parka Newroz a Amedê deng da.",
+      "timeline": [
+        {
+          "year": "1984",
+          "title": "Stenbol",
+          "text": "Sosyolojî li Zanîngeha Stenbolê. Dengbêjî ji malbatê tê."
+        },
+        {
+          "year": "1990î",
+          "title": "Koma Amed",
+          "text": "Ji Koma Dengê Azadî veqetiya, hat Koma Amed."
+        },
+        {
+          "year": "2000",
+          "title": "Çar Newa",
+          "text": "Sî, paşê Mak û Ziz. Sahnên Ewropayê."
+        },
+        {
+          "year": "2023–25",
+          "title": "Veger",
+          "text": "Tomara Êvarê, Parîs, Köln û Amed. Got ku Teşî cara yekem bi hev re li ser sahnê gotin."
+        }
+      ]
+    },
+    "memo-gul": {
+      "name": "Memo Gül",
+      "role": "Saz, deng",
+      "shortBio": "Di destpêka salên 1990î de hat komê. Yê ku vegera 2023yan ragihand.",
+      "quote": "Koma Amed dîsa bû yek. Wekî li cem xelkê, li cem me jî kelecaneke mezin çêbû.",
+      "birthPlace": "",
+      "story": "Memo Gül (Mehmet Gül) di destpêka salên 1990î de bi saz û deng hat Koma Amed. Di wextê MKMê yê Stenbolê de di kadroyê de bû. Piştî belavbûna komê li Ewropayê muzîkê berdewam kir; di hevpeyvîneke 2025an de got ku sî sal e li Ewropayê dijî. Di 1ê sibatê 2023yan de tomara akustîk a Êvarê parve kir û got em dîsa tên cem hev. Li Cirque d’Hiver a Parîsê saz û deng, di albûma zindî ya Kölnê û konsera Amedê ya 2025an de li ser sahnê bû. Got xewna wî ya herî mezin ev e: bi hemû endaman re li Amedê derkeve ser sahnê.",
+      "timeline": [
+        {
+          "year": "1990î",
+          "title": "Koma Amed",
+          "text": "Saz û deng. MKM Stenbol."
+        },
+        {
+          "year": "2023",
+          "title": "Êvarê",
+          "text": "Yekbûn li ser medyaya civakî ragihand. Tomara akustîk bi Serhat, Süleyman û Mazlum Rewşen re."
+        },
+        {
+          "year": "2024–25",
+          "title": "Sahne",
+          "text": "Parîs, Köln, Parka Newroz a Amedê."
+        }
+      ]
+    },
+    "serap-sonmez": {
+      "name": "Serap Sönmez",
+      "role": "Deng, gîtar",
+      "shortBio": "Stenbol, 1973. MKM, Koma Mezrabotan, ji 1995an ve Koma Amed. Yek ji dengên vegerê.",
+      "quote": "",
+      "birthPlace": "Stenbol",
+      "story": "Serap Sönmez di 1973yan de li Stenbolê ji dayik bû. Di 1991ê de, bi vekirina Navenda Çanda Mezopotamyayê, dest bi muzîkê kir. Di 1993yan de di albûma Kedkar a Koma Mezrabotan de dengê solo girt. Di destpêka 1995an de hat Koma Amed; di wextê Dergûşê de deng û gîtara akustîk/rîtm lê xist. Di heman salan de di koma jinan Koma Asmin de jî deng û gîtar lê xist. Di 2000î de muzîka lîstika Ta ya Teatra Jiyana Nû amade kir û li 2yemîn Festîvala Şanoya Kurdî ya Berlînê xelata muzîka şanoyê wergirt. Di 2005an de li cem Cavit Murtezaoğlu teknîka deng xebitî; konsera xwe ya yekem a solo di 2006an de da. Di 2024an de li Parîs û Kölnê, di 2025an de li Parka Newroz a Amedê yek ji dengên komê bû.",
+      "timeline": [
+        {
+          "year": "1973",
+          "title": "Stenbol",
+          "text": "Jidayikbûn."
+        },
+        {
+          "year": "1991",
+          "title": "MKM",
+          "text": "Muzîk li Navenda Çanda Mezopotamyayê."
+        },
+        {
+          "year": "1993",
+          "title": "Kedkar",
+          "text": "Dengê solo di albûma Koma Mezrabotan de."
+        },
+        {
+          "year": "1995",
+          "title": "Koma Amed",
+          "text": "Deng û gîtara akustîk/rîtm. Wextê Dergûşê."
+        },
+        {
+          "year": "2000–06",
+          "title": "Sahne û solo",
+          "text": "Xelata muzîka şanoyê li Berlînê. 2006: yekem konsera solo."
+        },
+        {
+          "year": "2024–25",
+          "title": "Veger",
+          "text": "Cirque d’Hiver Parîs, Sartory Säle Köln, Parka Newroz a Amedê."
+        }
+      ]
+    },
+    "suleyman-gultekin": {
+      "name": "Süleyman Gültekin",
+      "role": "Deng, aranjör",
+      "shortBio": "Ji Qerekose. Yek ji yên ku Çar Newa ava kirin; salên dirêj li Elmanya û Parîsê.",
+      "quote": "Dibe ku tiştê ku em di vê jiyanê de herî zêde dixwazin ev be: bi hemû endamên Koma Amed re li Amedê li ser sahnê bin.",
+      "birthPlace": "Qerekose, Îdir",
+      "story": "Süleyman Gültekin, li ser sahnê Süleyman Çarnewa, ji Qerekoseya Îdirê tê. Di salên 1990î de wekî deng, bestekar û aranjör hat Koma Amed. Piştî belavbûna komê yek ji yên ku Çar Newa ava kirin. Salên dirêj e di navbera Elmanya û Parîsê de dijî; gotiye ku ji hin sedeman vegera wî ya Tirkiyeyê hêsan nebûye. Di yekbûna 2023yan de yek ji yên ku Êvarê xwend. Di konserên Parîs û Kölnê yên 2024an de li ser sahnê bû. Ji NuMedya24 re got ku derketina ser sahnê li Amedê bi hemû endaman re xewneke hevbeş e.",
+      "timeline": [
+        {
+          "year": "1990î",
+          "title": "Koma Amed",
+          "text": "Deng, beste û aranjman. MKM Stenbol."
+        },
+        {
+          "year": "2000",
+          "title": "Çar Newa",
+          "text": "Sî, Mak, Ziz. Sahnên Ewropayê."
+        },
+        {
+          "year": "2023–24",
+          "title": "Veger",
+          "text": "Tomara Êvarê. Parîs û Köln. Sahneya Amedê xewneke hevbeş."
+        }
+      ]
+    },
+    "fikri-kutlay": {
+      "name": "Fikri Kutlay",
+      "role": "Beste, derleme, doktor",
+      "shortBio": "Yê ku kom ava kir. Cerrahê dil-damarê; akordeon û cura. Di 2016an de albûmeke solo.",
+      "quote": "",
+      "birthPlace": "",
+      "story": "Dr. Fikri Kutlay yek ji yên ku Koma Amed ava kirin e; bestekar û derlemeci ye. Di 1990î de ji Fakulteya Tıbê ya Zanîngeha Hacettepeyê mezûn bû; di 1997an de li Enstîtuya Kardiolojiyê ya Zanîngeha Stenbolê pisporiya cerrahiya dil-damarê temam kir. Di navbera 2011–2017an de li Êlihê wekî doktorê operator xebitî; niha li Stenbolê doktoriyê dike. Di muzîkê de şopa besteyên wekî Kulîlka Azadî, Ronahî-Berîvan, Destana Silopî, Gurbet û derlemeyên wekî Hoy Memo, Amedîye pê ve tê girêdan. Akordeon û cura lê dixe. Di 2016an de albûma Stranên Fikri Kutlay ji Kom Müzîkê derxist. Di wextê Çar Newa de di Sî, Mak û Ziz de cih girt. Di kadroya sahnê ya 2024–2026an de jî heye.",
+      "timeline": [
+        {
+          "year": "1988",
+          "title": "Avakirin",
+          "text": "Li Enqereyê, bi xwendekarên tıbê, bingeha Koma Amed."
+        },
+        {
+          "year": "1990",
+          "title": "Hacettepe",
+          "text": "Mezûniyeta fakulteya tıbê. Di heman salan de tomarên Kulîlka Azadî."
+        },
+        {
+          "year": "1997",
+          "title": "Cerrahi",
+          "text": "Pisporiya cerrahiya dil-damarê. Hevdemî bi Dergûşê re."
+        },
+        {
+          "year": "2011–17",
+          "title": "Êlih",
+          "text": "Doktorê operator. 2016: Stranên Fikri Kutlay."
+        },
+        {
+          "year": "2024–",
+          "title": "Sahne",
+          "text": "Di kadroya vegerê de. Li Stenbolê doktoriyê didomîne."
+        }
+      ]
+    },
+    "ahmet-kaya": {
+      "name": "Ahmet Kaya",
+      "role": "Deng, doktor, yê ku kom ava kir",
+      "shortBio": "Erzirom, 1968. Tıba Hacettepeyê. Ne heman kes e bi stranbêjê naskirî Ahmet Kaya re.",
+      "quote": "",
+      "birthPlace": "Erzirom",
+      "story": "Dr. Ahmet Kaya di 1968an de li Erziromê ji dayik bû. Dema ku xwendekarê Fakulteya Tıbê ya Hacettepeyê bû, bi Evdılmelik Şexbekir û Fikri Kutlay re Koma Amed ava kir. Di sê albûmên stûdyoyê de deng, derleme û beste girt. Ev nav divê bi stranbêjê naskirî yê heman salan Ahmet Kaya re neyê tevlihevkirin; Ahmet Kayayê Koma Amed doktor e û li Stenbolê karê xwe berdewam kiriye. Piştî belavbûna komê di albûmên Sî, Mak û Ziz ên Çar Newa de cih girt. Piştî 2011ê di albûmên Mehmet Akbaş, Agit Işık, Rewşan Çeliker û Tara Mamedova de gotin, beste û deng da. Di 2020î de, ji bo kedkarên tenduristiyê yên di pandemiyê de hatin windakirin, Bildiğin Halde li ser Nâzım Hikmet best kir; tomarên Payîza Derengî dest pê kirin. Ji 2024an vir ve di kadroya sahnê de ye.",
+      "timeline": [
+        {
+          "year": "1968",
+          "title": "Erzirom",
+          "text": "Jidayikbûn. Paşê tıba Hacettepeyê û sahneya Enqereyê."
+        },
+        {
+          "year": "1988",
+          "title": "Koma Amed",
+          "text": "Kadroya avakirinê. Sê albûm: Kulîlka Azadî, Agir û Mirov, Dergûş."
+        },
+        {
+          "year": "2000–11",
+          "title": "Çar Newa",
+          "text": "Sî, Mak, Ziz."
+        },
+        {
+          "year": "2020",
+          "title": "Bildiğin Halde",
+          "text": "Bi bîra kedkarên tenduristiyê. Xebatên Payîza Derengî."
+        }
+      ]
+    },
+    "evdilmelik-sexbekir": {
+      "name": "Evdılmelik Şexbekir",
+      "role": "Yê ku kom ava kir, yekemîn solîst",
+      "shortBio": "Melek. Ji Sûriyê heta Hacettepeyê. Wergera kurdî ya Çav Bella. 1992, Bedlîs.",
+      "quote": "",
+      "birthPlace": "Sûriye",
+      "story": "Evdılmelik Şexbekir, bi navên Melek an Melek Şengal tê bi bîr anîn. Ji Sûriyê Fakulteya Tıbê ya Hacettepeyê qezenc kir û hat Enqereyê. Xwendekarekî wêne, helbest û muzîkê bû; tirkî paşê hîn kir, lê dîsa jî helbest dinivîsand. Di 1988an de bi Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Fikri Kutlay, Mustafa Kart û Ahmet Kaya re Koma Amed ava kir. Di albûma yekem Kulîlka Azadî de solîstê sereke bû. Strana berxwedanê ya Îtalyayê Bella Ciao cara yekem wekî Çav Bella wergerand kurdî û xwend. Di sibata 1990î de, li Bahçelievler a Enqereyê, li stûdyoya Mete Artun di du rojan de tomar kir. Di 1991ê de ji ber zext û girtinan çû Çapa Tıpê; di îlona heman salê de çû şer. Di 1992yan de li Bedlîsê, di bîst û çar saliya xwe de, jiyana xwe ji dest da. Piştî mirina wî kom çû Stenbolê û li Navenda Çanda Mezopotamyayê xebatê berdewam kir.",
+      "timeline": [
+        {
+          "year": "1988",
+          "title": "Enqere",
+          "text": "Xwendekarê tıbê yê Hacettepeyê. Avakirina Koma Amed."
+        },
+        {
+          "year": "1990",
+          "title": "Kulîlka Azadî",
+          "text": "Bahçelievler, stûdyoya Mete Artun. Çav Bella, Telli Telli. Navê albûmê wê şevê hat danîn."
+        },
+        {
+          "year": "1991",
+          "title": "Çapa",
+          "text": "Ji ber zexta Enqereyê, tıba Çapa ya Stenbolê. Di îlona de çû şer."
+        },
+        {
+          "year": "1992",
+          "title": "Bedlîs",
+          "text": "Di bîst û çar saliya xwe de jiyana xwe ji dest da. Kom çû MKMê."
+        }
+      ]
+    }
+  },
+  "ProductsPage": {
+    "eyebrow": "Katalog",
+    "title": "Berhem",
+    "subtitle": "Plakek, tişôrtek. Firotin tune — biha texmîn in.",
+    "all": "Hemû",
+    "inquire": "Agahiyê bigire",
+    "close": "Bigire",
+    "priceNote": "Biha texmîna katalogê ye; li ser malperê firotin tune"
+  },
+  "Categories": {
+    "album": "Albûm",
+    "vinyl": "Plak",
+    "apparel": "Kinc"
+  },
+  "ProductsContent": {
+    "kulilka-azadi": {
+      "name": "Kulîlka Azadî",
+      "description": "Gula Azadiyê. Tomara 1990î, belavkirina berfireh 1992. Dema kurdî qedexe bû wekî kaseteke veşartî hat belavkirin. Çav Bella, Telli Telli; navê albûmê ji helbesta Muzaffer İlhan Erdost. Kadro: Evdılmelik Şexbekir, Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Fikri Kutlay, Mustafa Kart, Ahmet Kaya."
+    },
+    "agir-u-mirov": {
+      "name": "Agir û Mirov",
+      "description": "Agir û Mirov. Kom Müzîk, 1995. Marş, stranên gelêrî û perçe ji zaravayên kurdî. Di heman wextê de gera Serhildan li Îtalyayê: Roma, Palermo, Catania, Trieste."
+    },
+    "dergus": {
+      "name": "Dergûş",
+      "description": "Dergûş. Ses Plak 1997, Kom Müzîk 1998. Albûma herî naskirî; çavkaniyên wê demê qala 200–400 hezar kopî dikin. Hoy Memo, Êvarê, Amedîye, Teşî. Di 1999an de wezîrê derve İsmail Cem albûmê diyarî wezîrên Yekîtiya Ewropayê kir."
+    },
+    "cologne-2024": {
+      "name": "Live Session, Cologne 2024",
+      "description": "5 tîrmeh 2024, Sartory Säle Köln. Di 10ê tebaxê 2024an de hat weşandin. 17 perçe yên zindî, di nav de Amedîye, Êvare, Hoy Memo, Kulîlka Azadî, Teşî û Newroz e."
+    },
+    "dergus-vinyl": {
+      "name": "Dergûş — LP",
+      "description": "Çapa plak a albûma herî naskirî Dergûş. Hoy Memo, Êvarê, Amedîye. Firotin tune — katalog."
+    },
+    "koma-tee": {
+      "name": "Tişôrta Koma Amed",
+      "description": "Tişôrta bi wêneya koma Köln 2024. Firotin tune — katalog."
+    }
+  },
+  "About": {
+    "eyebrow": "Çîrok",
+    "title": "Navê cîhekî\ndibe navê dengekî.",
+    "lead": "Koma Amed di 1988an de li Enqereyê xwendekarên tıbê ava kirin. Nav Amed e, navê kurdî yê Diyarbakırê — herçend yên ku kom ava kirin ji wir nebûn jî.",
+    "p1": "Destpêk ev bû: Evdılmelik Şexbekir (Melek) ji Sûriyê hat tıba Hacettepeyê û li wir Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Fikri Kutlay, Mustafa Kart û Ahmet Kaya nas kir. Navê komê, di wê demê de li maleke Enqereyê, bi Selçuk Mızraklı ve tê girêdan. Albûma yekem Kulîlka Azadî di sibata 1990î de li Bahçelievler, li stûdyoya Mete Artun, di du rojan de hate tomar kirin; ji ber ku kurdî qedexe bû, pêşî veşartî hat kopîkirin û belavkirin. Şexbekir Bella Ciao wekî Çav Bella wergerand; Telli Telli, li gorî Murathan Mungan / Manos Loizos, deriyê stûdyoyê jî vekir.",
+    "p2": "Şexbekir di 1991ê de çû şer, di 1992yan de li Bedlîsê jiyana xwe ji dest da. Kom çû Stenbolê û li Navenda Çanda Mezopotamyayê xebitî. Serhat Karakaş, Merdan Zırav, Memo Gül, Mehmet Kaya, Birkan Çelik, paşê Serap Sönmez, Süleyman Gültekin û Leyla hatin. Agir û Mirov (1995) û gera Serhildan a Îtalyayê; Dergûş (1997) gihîşt xelkê herî fireh. Piştî sirgûn û penaberiyê kadro belav bû. Serhat, Süleyman, Ahmet Kaya û Fikri Kutlay bi navê Çar Newa Sî, Mak û Ziz derxistin.",
+    "p3": "Di 1ê sibatê 2023yan de tomara akustîk a Êvarê got em dîsa tên. 1ê hezîranê 2024 Cirque d’Hiver Parîs; 5 tîrmeh 2024 Köln û albûma zindî; 25ê cotmehê 2025 Parka Newroz a Amedê. Îro li ser sahnê Memo Gül, Serhat Karakaş, Süleyman Gültekin, Fikri Kutlay, Serap Sönmez û Ahmet Kaya hene. Gülşen Çetin, Savaş Çakmak, Rohat Kutlay, Mustafa Kart, Merdan Zırav, Mehmet Kaya, Birkan Çelik, Leyla û gîtarjvanê 2023yan Mazlum Rewşen navên din in ku di çavkaniyan de derbas dibin; çîrokên wan li vir nehatine çêkirin.",
+    "chapter1": "Enqere",
+    "chapter1Body": "1988. Fakulteya tıbê, zimanê qedexe, du roj stûdyo. Wê êvarê navê albûmê hat danîn: Kulîlka Azadî — Gula Azadiyê.",
+    "chapter2": "MKM",
+    "chapter2Body": "Stenbol, Navenda Çanda Mezopotamyayê. Albûma duyem û sêyem, gera Îtalyayê, paşê sirgûn. Çar Newa li Ewropayê berdewam kir.",
+    "chapter3": "Veger",
+    "chapter3Body": "2023 Êvarê. 2024 Parîs û Köln. 2025 Amed. Stran pîr nebûn; kadro dîsa li heman sahnê derket."
+  },
+  "Contact": {
+    "eyebrow": "Binivîse",
+    "title": "Sahne, çap,\nhevkarî.",
+    "body": "Form li vir tê kontrol kirin. Ger nasnameya Formspree were zêdekirin, şandin wê derê diçe; wekî din e-posta we vedibe.",
+    "name": "Nav",
+    "email": "E-posta",
+    "message": "Peyam",
+    "send": "Bişîne",
+    "sending": "Tê şandin…",
+    "success": "Peyama we amade ye. Spas.",
+    "errorName": "Ji kerema xwe navê xwe binivîse.",
+    "errorEmail": "E-postayeke rast binivîse.",
+    "errorMessage": "Peyam divê herî kêm 10 tîp be.",
+    "mailtoSubject": "Koma Amed — têkilî"
+  },
+  "Preloader": {
+    "label": "Tê barkirin"
+  },
+  "NotFound": {
+    "title": "Ev rûpel bêdeng e.",
+    "body": "Ev rê li ser sahnê nîne. Tu dikarî vegerî destpêkê.",
+    "cta": "Destpêk"
+  }
+}
