@@ -16,6 +16,7 @@ export function Preloader() {
     const hide = window.setTimeout(() => {
       setVisible(false);
       sessionStorage.setItem('koma-preloader', '1');
+      window.dispatchEvent(new Event('koma-preloader-done'));
     }, 2400);
 
     return () => {

@@ -159,14 +159,13 @@ export function VinylPlayer() {
   const armPlay = useCallback(
     (controller: EmbedController) => {
       playArmedRef.current = true;
-      unlockedRef.current = true;
       const kick = () => {
         if (!playArmedRef.current || dismissedRef.current) return;
         startPlayback(controller);
       };
       kick();
       clearPlayRetries();
-      [80, 200, 400, 800, 1600].forEach((ms) => {
+      [80, 200, 400, 800, 1600, 2800, 4500].forEach((ms) => {
         retryTimersRef.current.push(window.setTimeout(kick, ms));
       });
     },
@@ -280,9 +279,9 @@ export function VinylPlayer() {
 
           controller.addListener('ready', () => {
             setReady(true);
+            loadedAtRef.current = Date.now();
             if (!dismissedRef.current) {
-              playArmedRef.current = true;
-              startPlayback(controller);
+              armPlay(controller);
             }
           });
 
@@ -344,7 +343,7 @@ export function VinylPlayer() {
       controllerRef.current?.destroy();
       controllerRef.current = null;
     };
-  }, [clearPlayRetries, hostEl, playTrack]);
+  }, [armPlay, clearPlayRetries, hostEl, playTrack]);
 
   useEffect(() => {
     if (!visible || !ready || unlockedRef.current) return;
@@ -354,16 +353,20 @@ export function VinylPlayer() {
       const target = event.target as HTMLElement | null;
       if (target?.closest('[data-vinyl-dismiss]')) return;
       const controller = controllerRef.current;
-      if (controller) startPlayback(controller);
+      if (controller) armPlay(controller);
     };
 
     window.addEventListener('pointerdown', unlock, { capture: true });
     window.addEventListener('keydown', unlock, { capture: true });
+    window.addEventListener('touchstart', unlock, { capture: true });
+    window.addEventListener('koma-preloader-done', unlock);
     return () => {
       window.removeEventListener('pointerdown', unlock, { capture: true });
       window.removeEventListener('keydown', unlock, { capture: true });
+      window.removeEventListener('touchstart', unlock, { capture: true });
+      window.removeEventListener('koma-preloader-done', unlock);
     };
-  }, [ready, visible]);
+  }, [armPlay, ready, visible, playing]);
 
   return (
     <>
