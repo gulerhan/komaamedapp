@@ -30,7 +30,7 @@ export function Hero() {
 
   return (
     <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-bg">
-      <div className="absolute inset-0">
+      <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)]">
         <SharpImage
           src={HERO_IMAGE}
           alt=""
@@ -39,8 +39,8 @@ export function Hero() {
           sizes="100vw"
         />
       </div>
-      <div className="absolute inset-0 bg-linear-to-b from-bg/30 via-bg/55 to-bg" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,rgba(196,92,58,0.22),transparent_50%),radial-gradient(ellipse_at_80%_70%,rgba(201,164,92,0.16),transparent_46%)]" />
+      <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-linear-to-b from-bg/20 via-bg/55 to-bg" />
+      <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-[radial-gradient(ellipse_at_20%_20%,rgba(196,92,58,0.22),transparent_50%),radial-gradient(ellipse_at_80%_70%,rgba(201,164,92,0.16),transparent_46%)]" />
 
       <div className="orb absolute top-[12%] left-[8%] size-[42vw] max-w-xl rounded-full bg-terracotta/20 blur-3xl" />
       <div
