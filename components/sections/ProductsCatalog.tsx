@@ -10,7 +10,7 @@ import { productCategories, type Product, type ProductCategory } from '@/data/ty
 import { formatPrice } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { buttonStyles } from '@/components/ui/Button';
-import { Link } from '@/i18n/navigation';
+import { whatsappUrl } from '@/lib/site';
 
 type Filter = 'all' | ProductCategory;
 
@@ -108,9 +108,16 @@ export function ProductsCatalog() {
                   {t('priceNote')}
                 </p>
                 <div className="mt-8 flex gap-3">
-                  <Link href="/contact" className={buttonStyles({ variant: 'gold' })}>
+                  <a
+                    href={whatsappUrl(
+                      t('inquireMessage', { name: content(`${active.slug}.name`) }),
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={buttonStyles({ variant: 'gold' })}
+                  >
                     {t('inquire')}
-                  </Link>
+                  </a>
                   <Dialog.Close className={buttonStyles({ variant: 'outline' })}>
                     {t('close')}
                   </Dialog.Close>

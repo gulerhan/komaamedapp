@@ -336,6 +336,7 @@
     "subtitle": "Plaka Dergûş û tişôrta çapkirî ya Koma Amed 2026.",
     "all": "Hemû",
     "inquire": "Agahiyê bigire",
+    "inquireMessage": "Silav, ez li ser {name} agahiyê dixwazim.",
     "close": "Bigire",
     "priceNote": "Biha texmîna katalogê ye; li ser malperê firotin tune"
   },

@@ -336,6 +336,7 @@
     "subtitle": "The Dergûş LP and the Koma Amed 2026 printed tee.",
     "all": "All",
     "inquire": "Inquire",
+    "inquireMessage": "Hello, I would like information about {name}.",
     "close": "Close",
     "priceNote": "Price is a catalogue estimate; nothing is sold on this site"
   },

@@ -336,6 +336,7 @@
     "subtitle": "Dergûş plağı ve Koma Amed 2026 baskılı tişört.",
     "all": "Tümü",
     "inquire": "Bilgi al",
+    "inquireMessage": "Merhaba, {name} hakkında bilgi almak istiyorum.",
     "close": "Kapat",
     "priceNote": "Fiyat katalog tahminidir; sitede satış yoktur"
   },

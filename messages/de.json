@@ -336,6 +336,7 @@
     "subtitle": "Die Dergûş-LP und das Koma Amed 2026 bedruckte T-Shirt.",
     "all": "Alle",
     "inquire": "Anfragen",
+    "inquireMessage": "Hallo, ich möchte Informationen zu {name}.",
     "close": "Schließen",
     "priceNote": "Preis ist eine Katalogschätzung; auf der Seite wird nichts verkauft"
   },
