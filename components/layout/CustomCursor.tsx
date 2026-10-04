@@ -1,25 +1,20 @@
 'use client';
 
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 
-function useFinePointer() {
-  return useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia('(pointer: fine)');
-      media.addEventListener('change', onChange);
-      return () => media.removeEventListener('change', onChange);
-    },
-    () => window.matchMedia('(pointer: fine)').matches,
-    () => false,
-  );
-}
-
 export function CustomCursor() {
-  const fine = useFinePointer();
-  const enabled = fine;
+  const [enabled, setEnabled] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(pointer: fine)');
+    const update = () => setEnabled(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
 
   useEffect(() => {
     if (!enabled) return;
@@ -28,10 +23,10 @@ export function CustomCursor() {
     const onMove = (event: MouseEvent) => {
       setPos({ x: event.clientX, y: event.clientY });
       const target = event.target as HTMLElement | null;
-      const interactive = Boolean(
+      const hoverable = Boolean(
         target?.closest('a, button, [role="button"], input, textarea, select'),
       );
-      setHover(interactive);
+      setHover(hoverable);
     };
 
     window.addEventListener('mousemove', onMove, { passive: true });

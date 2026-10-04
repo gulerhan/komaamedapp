@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 
 export function TiltCard({
@@ -10,7 +10,12 @@ export function TiltCard({
   children: React.ReactNode;
   className?: string;
 }) {
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), {
@@ -32,6 +37,10 @@ export function TiltCard({
   function onLeave() {
     x.set(0);
     y.set(0);
+  }
+
+  if (!mounted) {
+    return <div className={className}>{children}</div>;
   }
 
   return (

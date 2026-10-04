@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Disc3, Pause, Play, SkipBack, SkipForward, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
@@ -117,21 +117,10 @@ function openVinyl() {
   window.dispatchEvent(new Event('koma-vinyl'));
 }
 
-function useFineHover() {
-  return useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia('(hover: hover) and (pointer: fine)');
-      media.addEventListener('change', onChange);
-      return () => media.removeEventListener('change', onChange);
-    },
-    () => window.matchMedia('(hover: hover) and (pointer: fine)').matches,
-    () => true,
-  );
-}
-
 export function VinylPlayer() {
   const t = useTranslations('Player');
-  const fineHover = useFineHover();
+  const [fineHover, setFineHover] = useState(true);
+  const [visible, setVisible] = useState(true);
   const controllerRef = useRef<EmbedController | null>(null);
   const indexRef = useRef(0);
   const unlockedRef = useRef(false);
@@ -146,7 +135,19 @@ export function VinylPlayer() {
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const visible = useSyncExternalStore(subscribeVinyl, vinylIsOpen, () => true);
+
+  useEffect(() => {
+    const media = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const update = () => setFineHover(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    setVisible(vinylIsOpen());
+    return subscribeVinyl(() => setVisible(vinylIsOpen()));
+  }, []);
 
   const track = spotifyTracks[index];
   const showDismiss = !fineHover || hovered;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 
 export function Magnetic({
@@ -12,7 +12,12 @@ export function Magnetic({
   strength?: number;
   className?: string;
 }) {
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 220, damping: 18 });
@@ -28,6 +33,10 @@ export function Magnetic({
   function onLeave() {
     x.set(0);
     y.set(0);
+  }
+
+  if (!mounted) {
+    return <div className={className}>{children}</div>;
   }
 
   return (

@@ -6,7 +6,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       className="page-enter"
-      initial={{ y: 18 }}
+      initial={false}
       animate={{ y: 0 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
