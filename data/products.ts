@@ -4,7 +4,7 @@ export const products: Product[] = [
   {
     slug: 'dergus-vinyl',
     category: 'vinyl',
-    price: 900,
+    price: 1000,
     image: '/albums/dergus.jpg',
     featured: true,
   },
