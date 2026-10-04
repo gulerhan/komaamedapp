@@ -397,6 +397,16 @@ export function VinylPlayer() {
                 }
               }}
             >
+              <div className="mr-2 max-w-[7.5rem] text-right">
+                <p className="text-[9px] tracking-[0.28em] text-gold uppercase">
+                  Koma Amed
+                </p>
+                <p className="font-display mt-0.5 text-base leading-tight text-fg">
+                  {track.title}
+                </p>
+                <p className="mt-0.5 text-[10px] text-fg-muted">{track.album}</p>
+              </div>
+
               <div className="relative size-[128px] sm:size-[148px] md:size-[164px]">
                 <div
                   className={cn(
@@ -481,7 +491,7 @@ export function VinylPlayer() {
                     target="_blank"
                     rel="noreferrer"
                     data-vinyl-ignore-unlock
-                    className="max-w-[7rem] truncate text-[8px] tracking-[0.18em] text-gold/80 uppercase hover:text-gold lg:hidden"
+                    className="sr-only"
                   >
                     {track.title}
                   </a>
