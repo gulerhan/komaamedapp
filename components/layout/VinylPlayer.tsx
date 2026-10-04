@@ -25,8 +25,10 @@ type PlaybackUpdate = {
 type EmbedController = {
   play: () => void;
   pause: () => void;
+  resume: () => void;
   togglePlay: () => void;
-  loadUri: (uri: string) => void;
+  loadUri: (uri: string, preferVideo?: boolean, startAt?: number) => void;
+  loadEntity?: (uri: string, preferVideo?: boolean, startAt?: number) => void;
   addListener: (event: string, cb: (event: PlaybackUpdate) => void) => void;
   removeListener: (event: string) => void;
   destroy: () => void;
@@ -57,6 +59,37 @@ function loadSpotifyIframeApi() {
   script.src = SCRIPT_SRC;
   script.async = true;
   document.body.appendChild(script);
+}
+
+function loadTrack(controller: EmbedController, uri: string) {
+  if (controller.loadEntity) {
+    controller.loadEntity(uri, false, 0);
+    return;
+  }
+  controller.loadUri(uri, false, 0);
+}
+
+function startPlayback(controller: EmbedController) {
+  controller.play();
+  controller.resume?.();
+}
+
+function enableIframeAutoplay(root: HTMLElement) {
+  const apply = (iframe: HTMLIFrameElement) => {
+    iframe.setAttribute(
+      'allow',
+      'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture',
+    );
+    iframe.setAttribute('allowfullscreen', 'true');
+  };
+  const existing = root.querySelector('iframe');
+  if (existing) apply(existing);
+  const observer = new MutationObserver(() => {
+    const iframe = root.querySelector('iframe');
+    if (iframe) apply(iframe);
+  });
+  observer.observe(root, { childList: true, subtree: true });
+  return observer;
 }
 
 function subscribeVinyl(onStoreChange: () => void) {
@@ -104,6 +137,10 @@ export function VinylPlayer() {
   const unlockedRef = useRef(false);
   const endedRef = useRef(false);
   const dismissedRef = useRef(false);
+  const loadedAtRef = useRef(0);
+  const playArmedRef = useRef(false);
+  const retryTimersRef = useRef<number[]>([]);
+  const touchGuardRef = useRef(0);
   const [hostEl, setHostEl] = useState<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -114,20 +151,48 @@ export function VinylPlayer() {
   const track = spotifyTracks[index];
   const showDismiss = !fineHover || hovered;
 
-  const playTrack = useCallback((nextIndex: number, autoplay = true) => {
-    if (dismissedRef.current) return;
-    const next = (nextIndex + spotifyTracks.length) % spotifyTracks.length;
-    indexRef.current = next;
-    setIndex(next);
-    endedRef.current = false;
-    const controller = controllerRef.current;
-    if (!controller) return;
-    controller.loadUri(spotifyTrackUri(spotifyTracks[next].id));
-    if (autoplay) {
-      controller.play();
-      unlockedRef.current = true;
-    }
+  const clearPlayRetries = useCallback(() => {
+    retryTimersRef.current.forEach((id) => window.clearTimeout(id));
+    retryTimersRef.current = [];
   }, []);
+
+  const armPlay = useCallback(
+    (controller: EmbedController) => {
+      playArmedRef.current = true;
+      unlockedRef.current = true;
+      const kick = () => {
+        if (!playArmedRef.current || dismissedRef.current) return;
+        startPlayback(controller);
+      };
+      kick();
+      clearPlayRetries();
+      [80, 200, 400, 800, 1600].forEach((ms) => {
+        retryTimersRef.current.push(window.setTimeout(kick, ms));
+      });
+    },
+    [clearPlayRetries],
+  );
+
+  const playTrack = useCallback(
+    (nextIndex: number, autoplay = true) => {
+      if (dismissedRef.current) return;
+      const next = (nextIndex + spotifyTracks.length) % spotifyTracks.length;
+      indexRef.current = next;
+      setIndex(next);
+      endedRef.current = false;
+      loadedAtRef.current = Date.now();
+      const controller = controllerRef.current;
+      if (!controller) return;
+      loadTrack(controller, spotifyTrackUri(spotifyTracks[next].id));
+      if (autoplay) {
+        armPlay(controller);
+      } else {
+        playArmedRef.current = false;
+        clearPlayRetries();
+      }
+    },
+    [armPlay, clearPlayRetries],
+  );
 
   const skip = useCallback(
     (direction: 1 | -1) => {
@@ -136,27 +201,53 @@ export function VinylPlayer() {
     [playTrack],
   );
 
+  const onTouchTransport = useCallback((action: () => void) => {
+    return (event: React.PointerEvent) => {
+      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') return;
+      event.preventDefault();
+      touchGuardRef.current = Date.now();
+      action();
+    };
+  }, []);
+
+  const onClickTransport = useCallback((action: () => void) => {
+    return () => {
+      if (Date.now() - touchGuardRef.current < 600) return;
+      action();
+    };
+  }, []);
+
   const toggle = useCallback(() => {
     const controller = controllerRef.current;
     if (!controller) return;
     unlockedRef.current = true;
-    controller.togglePlay();
-  }, []);
+    if (playing) {
+      playArmedRef.current = false;
+      clearPlayRetries();
+      controller.pause();
+      setPlaying(false);
+      return;
+    }
+    armPlay(controller);
+  }, [armPlay, clearPlayRetries, playing]);
 
   const dismiss = useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
     dismissedRef.current = true;
+    playArmedRef.current = false;
+    clearPlayRetries();
     controllerRef.current?.pause();
     setPlaying(false);
     closeVinyl();
-  }, []);
+  }, [clearPlayRetries]);
 
   const restore = useCallback(() => {
     dismissedRef.current = false;
     unlockedRef.current = true;
     openVinyl();
-    controllerRef.current?.play();
-  }, []);
+    const controller = controllerRef.current;
+    if (controller) armPlay(controller);
+  }, [armPlay]);
 
   useEffect(() => {
     dismissedRef.current = !visible;
@@ -165,6 +256,7 @@ export function VinylPlayer() {
   useEffect(() => {
     if (!hostEl) return;
     let cancelled = false;
+    const iframeObserver = enableIframeAutoplay(hostEl);
 
     const mount = (api: IFrameAPI) => {
       if (cancelled || controllerRef.current) return;
@@ -189,13 +281,15 @@ export function VinylPlayer() {
           controller.addListener('ready', () => {
             setReady(true);
             if (!dismissedRef.current) {
-              controller.play();
+              playArmedRef.current = true;
+              startPlayback(controller);
             }
           });
 
           controller.addListener('playback_update', (event) => {
             if (dismissedRef.current) return;
-            const { isPaused, duration, position, playingURI } = event.data;
+            const { isPaused, isBuffering, duration, position, playingURI } =
+              event.data;
             setPlaying(!isPaused);
 
             if (playingURI) {
@@ -209,14 +303,20 @@ export function VinylPlayer() {
 
             if (!isPaused) {
               unlockedRef.current = true;
+              playArmedRef.current = false;
+              clearPlayRetries();
+            } else if (playArmedRef.current && !isBuffering) {
+              startPlayback(controller);
             }
 
-            if (duration > 0 && position > 0 && position >= duration - 600) {
+            const nearEnd = duration > 5000 && position >= duration * 0.97;
+            const justLoaded = Date.now() - loadedAtRef.current < 2000;
+            if (nearEnd && !justLoaded) {
               if (!endedRef.current) {
                 endedRef.current = true;
                 playTrack(indexRef.current + 1, true);
               }
-            } else if (position < duration - 1200) {
+            } else if (!nearEnd) {
               endedRef.current = false;
             }
           });
@@ -239,10 +339,12 @@ export function VinylPlayer() {
 
     return () => {
       cancelled = true;
+      iframeObserver.disconnect();
+      clearPlayRetries();
       controllerRef.current?.destroy();
       controllerRef.current = null;
     };
-  }, [hostEl, playTrack]);
+  }, [clearPlayRetries, hostEl, playTrack]);
 
   useEffect(() => {
     if (!visible || !ready || unlockedRef.current) return;
@@ -251,7 +353,8 @@ export function VinylPlayer() {
       if (unlockedRef.current || dismissedRef.current) return;
       const target = event.target as HTMLElement | null;
       if (target?.closest('[data-vinyl-dismiss]')) return;
-      controllerRef.current?.play();
+      const controller = controllerRef.current;
+      if (controller) startPlayback(controller);
     };
 
     window.addEventListener('pointerdown', unlock, { capture: true });
@@ -266,7 +369,7 @@ export function VinylPlayer() {
     <>
       <div
         ref={setHostEl}
-        className="pointer-events-none fixed right-0 bottom-3 z-0 size-[128px] overflow-hidden rounded-full opacity-0 sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
+        className="pointer-events-none fixed right-0 bottom-3 z-0 size-[128px] overflow-hidden rounded-full opacity-[0.02] sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
         aria-hidden="true"
       />
       <AnimatePresence mode="wait">
@@ -347,11 +450,12 @@ export function VinylPlayer() {
                 </button>
 
                 <div className="absolute inset-x-0 bottom-[12%] z-20 flex flex-col items-center gap-1">
-                  <div className="flex items-center gap-0.5 rounded-full border border-gold/35 bg-bg/80 px-1 py-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-md">
+                  <div className="flex touch-manipulation items-center gap-0.5 rounded-full border border-gold/35 bg-bg/80 px-1 py-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-md">
                     <button
                       type="button"
                       className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold sm:size-7"
-                      onClick={() => skip(-1)}
+                      onPointerDown={onTouchTransport(() => skip(-1))}
+                      onClick={onClickTransport(() => skip(-1))}
                       aria-label={t('previous')}
                     >
                       <SkipBack className="size-3 sm:size-3.5" fill="currentColor" />
@@ -359,7 +463,8 @@ export function VinylPlayer() {
                     <button
                       type="button"
                       className="inline-flex size-7 items-center justify-center rounded-full bg-gold text-bg transition-colors hover:bg-gold-bright sm:size-8"
-                      onClick={toggle}
+                      onPointerDown={onTouchTransport(toggle)}
+                      onClick={onClickTransport(toggle)}
                       aria-label={playing ? t('pause') : t('play')}
                     >
                       {playing ? (
@@ -371,7 +476,8 @@ export function VinylPlayer() {
                     <button
                       type="button"
                       className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold sm:size-7"
-                      onClick={() => skip(1)}
+                      onPointerDown={onTouchTransport(() => skip(1))}
+                      onClick={onClickTransport(() => skip(1))}
                       aria-label={t('next')}
                     >
                       <SkipForward className="size-3 sm:size-3.5" fill="currentColor" />
