@@ -1,4 +1,6 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { socialLinks } from '@/lib/site';
 
@@ -53,10 +55,10 @@ const icons = {
   spotify: SpotifyIcon,
 };
 
-export async function SiteFooter() {
-  const t = await getTranslations('Footer');
-  const nav = await getTranslations('Nav');
-  const common = await getTranslations('Common');
+export function SiteFooter() {
+  const t = useTranslations('Footer');
+  const nav = useTranslations('Nav');
+  const common = useTranslations('Common');
   const year = new Date().getFullYear();
 
   return (

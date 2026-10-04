@@ -1,9 +1,11 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 
-export async function Intro() {
-  const t = await getTranslations('Intro');
+export function Intro() {
+  const t = useTranslations('Intro');
 
   return (
     <section id="intro" className="relative py-24 md:py-36">

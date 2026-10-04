@@ -17,7 +17,7 @@ export function musicGroupJsonLd() {
     member: members.map((member) => ({
       '@type': 'Person',
       name: member.displayName,
-      url: `${siteConfig.url}/ku/members/${member.slug}`,
+      url: `${siteConfig.url}/members/${member.slug}`,
     })),
     sameAs: socialLinks.map((link) => link.href),
   };

@@ -21,13 +21,13 @@ export function buildMetadata({
   path?: string;
 }): Metadata {
   const normalized = !path || path === '/' ? '' : path.startsWith('/') ? path : `/${path}`;
-  const url = `${siteConfig.url}/${locale}${normalized}`;
+  const url = `${siteConfig.url}${normalized || '/'}`;
   const languages: Record<string, string> = {
-    'x-default': `${siteConfig.url}/${routing.defaultLocale}${normalized}`,
+    'x-default': url,
   };
 
   for (const item of routing.locales) {
-    languages[item] = `${siteConfig.url}/${item}${normalized}`;
+    languages[item] = url;
   }
 
   return {

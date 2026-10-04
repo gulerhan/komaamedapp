@@ -1,11 +1,13 @@
+'use client';
+
 import { SharpImage } from '@/components/ui/SharpImage';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import type { Member, TimelineItem } from '@/data/types';
 import { Link } from '@/i18n/navigation';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 
-export async function MemberStory({
+export function MemberStory({
   member,
   prev,
   next,
@@ -14,10 +16,10 @@ export async function MemberStory({
   prev: Member;
   next: Member;
 }) {
-  const t = await getTranslations(`MembersContent.${member.slug}`);
-  const ui = await getTranslations('Member');
-  const prevT = await getTranslations(`MembersContent.${prev.slug}`);
-  const nextT = await getTranslations(`MembersContent.${next.slug}`);
+  const t = useTranslations(`MembersContent.${member.slug}`);
+  const ui = useTranslations('Member');
+  const prevT = useTranslations(`MembersContent.${prev.slug}`);
+  const nextT = useTranslations(`MembersContent.${next.slug}`);
   const quote = t('quote').trim();
   const story = t('story').trim();
   const birthPlace = t('birthPlace').trim();

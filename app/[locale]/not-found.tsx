@@ -1,9 +1,11 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { buttonStyles } from '@/components/ui/Button';
 
-export default async function NotFound() {
-  const t = await getTranslations('NotFound');
+export default function NotFound() {
+  const t = useTranslations('NotFound');
 
   return (
     <div className="flex min-h-[80svh] flex-col items-center justify-center px-6 text-center">

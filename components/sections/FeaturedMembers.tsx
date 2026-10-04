@@ -1,5 +1,7 @@
+'use client';
+
 import { SharpImage } from '@/components/ui/SharpImage';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { members } from '@/data/members';
 import { Link } from '@/i18n/navigation';
 import { Container } from '@/components/ui/Container';
@@ -7,9 +9,9 @@ import { Reveal } from '@/components/ui/Reveal';
 import { TiltCard } from '@/components/ui/TiltCard';
 import { buttonStyles } from '@/components/ui/Button';
 
-export async function FeaturedMembers() {
-  const t = await getTranslations('FeaturedMembers');
-  const content = await getTranslations('MembersContent');
+export function FeaturedMembers() {
+  const t = useTranslations('FeaturedMembers');
+  const content = useTranslations('MembersContent');
   const featured = members.filter((member) => member.featured);
 
   return (

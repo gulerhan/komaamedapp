@@ -1,7 +1,9 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-export async function Marquee() {
-  const t = await getTranslations('Marquee');
+import { useTranslations } from 'next-intl';
+
+export function Marquee() {
+  const t = useTranslations('Marquee');
   const text = `${t('text')} ${t('text')}`;
 
   return (

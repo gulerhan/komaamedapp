@@ -1,5 +1,7 @@
+'use client';
+
 import { SharpImage } from '@/components/ui/SharpImage';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { useLocale, useTranslations } from 'next-intl';
 import { getFeaturedProducts } from '@/data/products';
 import { Link } from '@/i18n/navigation';
 import { formatPrice } from '@/lib/utils';
@@ -7,10 +9,10 @@ import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { buttonStyles } from '@/components/ui/Button';
 
-export async function FeaturedProducts() {
-  const t = await getTranslations('FeaturedProducts');
-  const productsT = await getTranslations('ProductsContent');
-  const locale = await getLocale();
+export function FeaturedProducts() {
+  const t = useTranslations('FeaturedProducts');
+  const productsT = useTranslations('ProductsContent');
+  const locale = useLocale();
   const featured = getFeaturedProducts();
 
   return (

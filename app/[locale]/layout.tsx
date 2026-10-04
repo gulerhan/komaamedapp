@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
+import { hasLocale } from 'next-intl';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import '../globals.css';
@@ -8,9 +8,11 @@ import { fontAccent, fontDisplay, fontSans } from '@/lib/fonts';
 import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/site';
 import { musicGroupJsonLd } from '@/lib/schema';
+import { LocaleProvider } from '@/components/i18n/LocaleProvider';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { Providers } from '@/components/layout/Providers';
+import { SkipToContent } from '@/components/layout/SkipToContent';
 import { JsonLd } from '@/components/layout/JsonLd';
 import { toLocale } from '@/lib/locale';
 
@@ -54,8 +56,6 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages();
-  const t = await getTranslations('Common');
 
   return (
     <html
@@ -64,19 +64,14 @@ export default async function LocaleLayout({
     >
       <body className="min-h-full bg-bg font-sans text-fg">
         <JsonLd data={musicGroupJsonLd()} />
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <LocaleProvider initialLocale={locale}>
           <Providers>
-            <a
-              href="#main"
-              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-gold focus:px-4 focus:py-2 focus:text-bg"
-            >
-              {t('skipToContent')}
-            </a>
+            <SkipToContent />
             <SiteHeader />
             <main id="main">{children}</main>
             <SiteFooter />
           </Providers>
-        </NextIntlClientProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

@@ -1,12 +1,14 @@
+'use client';
+
 import { SharpImage } from '@/components/ui/SharpImage';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 
 const ABOUT_IMAGE = '/koma/band.jpg';
 
-export async function AboutStory() {
-  const t = await getTranslations('About');
+export function AboutStory() {
+  const t = useTranslations('About');
 
   return (
     <>

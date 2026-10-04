@@ -1,10 +1,12 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { musicEmbeds } from '@/lib/site';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 
-export async function MusicEmbed() {
-  const t = await getTranslations('Music');
+export function MusicEmbed() {
+  const t = useTranslations('Music');
 
   return (
     <section id="music" className="py-24 md:py-32">
