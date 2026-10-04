@@ -372,15 +372,9 @@ export function VinylPlayer() {
     <>
       <div
         ref={setHostEl}
-        className="pointer-events-none fixed right-0 bottom-3 z-0 size-[128px] overflow-hidden rounded-full opacity-100 sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
+        className="pointer-events-none fixed top-0 left-0 -z-10 h-px w-px overflow-hidden opacity-0"
         aria-hidden="true"
       />
-      {!visible ? (
-        <div
-          className="pointer-events-none fixed right-0 bottom-3 z-[1] size-[128px] rounded-full bg-bg sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
-          aria-hidden="true"
-        />
-      ) : null}
       <AnimatePresence mode="wait">
         {visible ? (
           <motion.aside
@@ -403,16 +397,6 @@ export function VinylPlayer() {
                 }
               }}
             >
-              <div className="mr-2 hidden max-w-[7.5rem] text-right lg:block">
-                <p className="text-[9px] tracking-[0.28em] text-gold uppercase">
-                  Koma Amed
-                </p>
-                <p className="font-display mt-0.5 text-base leading-tight text-fg">
-                  {track.title}
-                </p>
-                <p className="mt-0.5 text-[10px] text-fg-muted">{track.album}</p>
-              </div>
-
               <div className="relative size-[128px] sm:size-[148px] md:size-[164px]">
                 <div
                   className={cn(
