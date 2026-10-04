@@ -35,8 +35,8 @@ export function SiteHeader() {
     <header
       className={cn(
         'fixed top-0 right-0 left-0 z-50 border-b transition-colors duration-500',
-        scrolled
-          ? 'border-border bg-bg/70 backdrop-blur-xl'
+        scrolled || open
+          ? 'border-border/50 bg-bg/40 backdrop-blur-2xl backdrop-saturate-150'
           : 'border-transparent bg-transparent',
       )}
     >
@@ -106,7 +106,7 @@ export function SiteHeader() {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="border-t border-border bg-bg/95 px-5 py-8 backdrop-blur-xl lg:hidden"
+            className="border-t border-white/10 bg-transparent px-5 py-8 lg:hidden"
           >
             <nav className="flex flex-col gap-3" aria-label="Mobile">
               {links.map((link) => (
