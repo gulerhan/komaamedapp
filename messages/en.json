@@ -400,7 +400,8 @@
     "mailtoSubject": "Koma Amed — contact"
   },
   "Preloader": {
-    "label": "Loading"
+    "label": "Loading",
+    "welcome": "Bi xêr hatin"
   },
   "NotFound": {
     "title": "This page is silent.",

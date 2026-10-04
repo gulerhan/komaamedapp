@@ -33,24 +33,34 @@ export function Preloader() {
           role="status"
           aria-label={t('label')}
         >
-          <div className="overflow-hidden">
-            <p className="font-display flex gap-[0.08em] text-5xl tracking-[0.18em] text-gold md:text-7xl">
-              {letters.map((letter, index) => (
-                <motion.span
-                  key={`${letter}-${index}`}
-                  initial={{ y: '110%', opacity: 0 }}
-                  animate={{ y: '0%', opacity: 1 }}
-                  transition={{
-                    delay: 0.12 + index * 0.06,
-                    duration: 0.7,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="inline-block"
-                >
-                  {letter === ' ' ? '\u00a0' : letter}
-                </motion.span>
-              ))}
-            </p>
+          <div className="flex flex-col items-center">
+            <motion.p
+              className="font-accent text-sm tracking-[0.32em] text-gold/80 uppercase md:text-base"
+              initial={{ y: 16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {t('welcome')}
+            </motion.p>
+            <div className="mt-4 overflow-hidden">
+              <p className="font-display flex gap-[0.08em] text-5xl tracking-[0.18em] text-gold md:text-7xl">
+                {letters.map((letter, index) => (
+                  <motion.span
+                    key={`${letter}-${index}`}
+                    initial={{ y: '110%', opacity: 0 }}
+                    animate={{ y: '0%', opacity: 1 }}
+                    transition={{
+                      delay: 0.18 + index * 0.06,
+                      duration: 0.7,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="inline-block"
+                  >
+                    {letter === ' ' ? '\u00a0' : letter}
+                  </motion.span>
+                ))}
+              </p>
+            </div>
           </div>
           <motion.span
             className="absolute bottom-16 left-1/2 h-px w-24 -translate-x-1/2 origin-left bg-gold"

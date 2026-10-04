@@ -400,7 +400,8 @@
     "mailtoSubject": "Koma Amed — iletişim"
   },
   "Preloader": {
-    "label": "Yükleniyor"
+    "label": "Yükleniyor",
+    "welcome": "Bi xêr hatin"
   },
   "NotFound": {
     "title": "Bu sayfa suskun.",

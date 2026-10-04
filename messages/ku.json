@@ -400,7 +400,8 @@
     "mailtoSubject": "Koma Amed — têkilî"
   },
   "Preloader": {
-    "label": "Tê barkirin"
+    "label": "Tê barkirin",
+    "welcome": "Bi xêr hatin"
   },
   "NotFound": {
     "title": "Ev rûpel bêdeng e.",
