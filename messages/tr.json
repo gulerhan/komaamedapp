@@ -401,7 +401,8 @@
   },
   "Preloader": {
     "label": "Yükleniyor",
-    "welcome": "Bi xêr hatin"
+    "welcome": "Bi xêr hatin",
+    "enter": "Başlamak için dokun"
   },
   "NotFound": {
     "title": "Bu sayfa suskun.",

@@ -401,7 +401,8 @@
   },
   "Preloader": {
     "label": "Loading",
-    "welcome": "Bi xêr hatin"
+    "welcome": "Bi xêr hatin",
+    "enter": "Tap to enter"
   },
   "NotFound": {
     "title": "This page is silent.",

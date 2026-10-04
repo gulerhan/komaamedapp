@@ -401,7 +401,8 @@
   },
   "Preloader": {
     "label": "Laden",
-    "welcome": "Bi xêr hatin"
+    "welcome": "Bi xêr hatin",
+    "enter": "Tippen zum Starten"
   },
   "NotFound": {
     "title": "Diese Seite schweigt.",

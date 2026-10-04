@@ -401,7 +401,8 @@
   },
   "Preloader": {
     "label": "Tê barkirin",
-    "welcome": "Bi xêr hatin"
+    "welcome": "Bi xêr hatin",
+    "enter": "Ji bo destpêkirinê bitepîne"
   },
   "NotFound": {
     "title": "Ev rûpel bêdeng e.",

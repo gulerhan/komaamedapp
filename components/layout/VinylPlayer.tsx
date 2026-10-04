@@ -7,90 +7,29 @@ import { useTranslations } from 'next-intl';
 import { SharpImage } from '@/components/ui/SharpImage';
 import { cn } from '@/lib/utils';
 import {
+  EmbedController,
+  IFrameAPI,
+  ensureSpotifyIframeApi,
+  isGestureLockedBrowser,
+  loadTrack,
+  prepareSpotifyIframe,
+  readSessionFlag,
+  startPlayback,
+  writeSessionFlag,
+} from '@/lib/spotify-embed';
+import {
+  playVinylFromGesture,
+  registerVinylEngine,
+  setVinylReady,
+} from '@/lib/vinyl-bridge';
+import {
   spotifyTrackUri,
   spotifyTrackUrl,
   spotifyTracks,
 } from '@/lib/spotify';
 
-type PlaybackUpdate = {
-  data: {
-    isPaused: boolean;
-    isBuffering: boolean;
-    duration: number;
-    position: number;
-    playingURI?: string;
-  };
-};
-
-type EmbedController = {
-  play: () => void;
-  pause: () => void;
-  resume: () => void;
-  togglePlay: () => void;
-  loadUri: (uri: string, preferVideo?: boolean, startAt?: number) => void;
-  loadEntity?: (uri: string, preferVideo?: boolean, startAt?: number) => void;
-  addListener: (event: string, cb: (event: PlaybackUpdate) => void) => void;
-  removeListener: (event: string) => void;
-  destroy: () => void;
-};
-
-type IFrameAPI = {
-  createController: (
-    element: HTMLElement,
-    options: { uri: string; width: number; height: number },
-    callback: (controller: EmbedController) => void,
-  ) => void;
-};
-
-declare global {
-  interface Window {
-    onSpotifyIframeApiReady?: (api: IFrameAPI) => void;
-    __KOMA_SPOTIFY_IFRAME_API__?: IFrameAPI;
-  }
-}
-
-const SCRIPT_SRC = 'https://open.spotify.com/embed/iframe-api/v1';
 const STORAGE_KEY = 'koma-vinyl-dismissed';
 const vinylListeners = new Set<() => void>();
-
-function loadSpotifyIframeApi() {
-  if (document.querySelector(`script[src="${SCRIPT_SRC}"]`)) return;
-  const script = document.createElement('script');
-  script.src = SCRIPT_SRC;
-  script.async = true;
-  document.body.appendChild(script);
-}
-
-function loadTrack(controller: EmbedController, uri: string) {
-  if (controller.loadEntity) {
-    controller.loadEntity(uri, false, 0);
-    return;
-  }
-  controller.loadUri(uri, false, 0);
-}
-
-function startPlayback(controller: EmbedController) {
-  controller.play();
-  controller.resume?.();
-}
-
-function enableIframeAutoplay(root: HTMLElement) {
-  const apply = (iframe: HTMLIFrameElement) => {
-    iframe.setAttribute(
-      'allow',
-      'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture',
-    );
-    iframe.setAttribute('allowfullscreen', 'true');
-  };
-  const existing = root.querySelector('iframe');
-  if (existing) apply(existing);
-  const observer = new MutationObserver(() => {
-    const iframe = root.querySelector('iframe');
-    if (iframe) apply(iframe);
-  });
-  observer.observe(root, { childList: true, subtree: true });
-  return observer;
-}
 
 function subscribeVinyl(onStoreChange: () => void) {
   vinylListeners.add(onStoreChange);
@@ -102,34 +41,44 @@ function subscribeVinyl(onStoreChange: () => void) {
 }
 
 function vinylIsOpen() {
-  return sessionStorage.getItem(STORAGE_KEY) !== '1';
+  return !readSessionFlag(STORAGE_KEY);
 }
 
 function closeVinyl() {
-  sessionStorage.setItem(STORAGE_KEY, '1');
+  writeSessionFlag(STORAGE_KEY, true);
   vinylListeners.forEach((listener) => listener());
   window.dispatchEvent(new Event('koma-vinyl'));
 }
 
 function openVinyl() {
-  sessionStorage.removeItem(STORAGE_KEY);
+  writeSessionFlag(STORAGE_KEY, false);
   vinylListeners.forEach((listener) => listener());
   window.dispatchEvent(new Event('koma-vinyl'));
+}
+
+function trackUriAt(index: number) {
+  const next = (index + spotifyTracks.length) % spotifyTracks.length;
+  return { index: next, uri: spotifyTrackUri(spotifyTracks[next].id) };
 }
 
 export function VinylPlayer() {
   const t = useTranslations('Player');
   const [fineHover, setFineHover] = useState(true);
   const [visible, setVisible] = useState(true);
-  const controllerRef = useRef<EmbedController | null>(null);
+  const controllersRef = useRef<[EmbedController | null, EmbedController | null]>([
+    null,
+    null,
+  ]);
+  const uriRef = useRef<[string, string]>(['', '']);
+  const activeSlotRef = useRef(0);
   const indexRef = useRef(0);
   const unlockedRef = useRef(false);
   const endedRef = useRef(false);
   const dismissedRef = useRef(false);
   const loadedAtRef = useRef(0);
   const playArmedRef = useRef(false);
+  const gestureOnlyRef = useRef(false);
   const retryTimersRef = useRef<number[]>([]);
-  const touchGuardRef = useRef(0);
   const [hostEl, setHostEl] = useState<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -145,6 +94,7 @@ export function VinylPlayer() {
   }, []);
 
   useEffect(() => {
+    gestureOnlyRef.current = isGestureLockedBrowser();
     setVisible(vinylIsOpen());
     return subscribeVinyl(() => setVisible(vinylIsOpen()));
   }, []);
@@ -157,41 +107,92 @@ export function VinylPlayer() {
     retryTimersRef.current = [];
   }, []);
 
+  const activeController = useCallback(() => {
+    return controllersRef.current[activeSlotRef.current];
+  }, []);
+
   const armPlay = useCallback(
     (controller: EmbedController) => {
       playArmedRef.current = true;
-      const kick = () => {
-        if (!playArmedRef.current || dismissedRef.current) return;
-        startPlayback(controller);
-      };
-      kick();
+      startPlayback(controller);
       clearPlayRetries();
-      [80, 200, 400, 800, 1600, 2800, 4500].forEach((ms) => {
-        retryTimersRef.current.push(window.setTimeout(kick, ms));
+
+      const delays =
+        unlockedRef.current || !gestureOnlyRef.current
+          ? unlockedRef.current
+            ? [160, 400, 900, 1600]
+            : [80, 200, 400, 800, 1600, 2800, 4500]
+          : [];
+
+      delays.forEach((ms) => {
+        retryTimersRef.current.push(
+          window.setTimeout(() => {
+            if (!playArmedRef.current || dismissedRef.current) return;
+            startPlayback(controller);
+          }, ms),
+        );
       });
     },
     [clearPlayRetries],
   );
 
-  const playTrack = useCallback(
-    (nextIndex: number, autoplay = true) => {
-      if (dismissedRef.current) return;
-      const next = (nextIndex + spotifyTracks.length) % spotifyTracks.length;
-      indexRef.current = next;
-      setIndex(next);
+  const preloadStandby = useCallback(() => {
+    const standby = 1 - activeSlotRef.current;
+    const controller = controllersRef.current[standby];
+    if (!controller) return;
+    const { uri } = trackUriAt(indexRef.current + 1);
+    if (uriRef.current[standby] === uri) return;
+    loadTrack(controller, uri);
+    uriRef.current[standby] = uri;
+  }, []);
+
+  const activateSlot = useCallback(
+    (slot: number, nextIndex: number, autoplay: boolean) => {
+      const other = 1 - slot;
+      controllersRef.current[other]?.pause();
+      activeSlotRef.current = slot;
+      indexRef.current = nextIndex;
+      setIndex(nextIndex);
       endedRef.current = false;
       loadedAtRef.current = Date.now();
-      const controller = controllerRef.current;
+      const controller = controllersRef.current[slot];
       if (!controller) return;
-      loadTrack(controller, spotifyTrackUri(spotifyTracks[next].id));
-      if (autoplay) {
-        armPlay(controller);
-      } else {
+      if (autoplay) armPlay(controller);
+      else {
         playArmedRef.current = false;
         clearPlayRetries();
       }
+      preloadStandby();
     },
-    [armPlay, clearPlayRetries],
+    [armPlay, clearPlayRetries, preloadStandby],
+  );
+
+  const playTrack = useCallback(
+    (nextIndex: number, autoplay = true) => {
+      if (dismissedRef.current) return;
+      const { index: next, uri } = trackUriAt(nextIndex);
+      const standby = 1 - activeSlotRef.current;
+      const standbyController = controllersRef.current[standby];
+
+      if (standbyController && uriRef.current[standby] === uri) {
+        activateSlot(standby, next, autoplay);
+        return;
+      }
+
+      if (standbyController) {
+        loadTrack(standbyController, uri);
+        uriRef.current[standby] = uri;
+        activateSlot(standby, next, autoplay);
+        return;
+      }
+
+      const current = activeController();
+      if (!current) return;
+      loadTrack(current, uri);
+      uriRef.current[activeSlotRef.current] = uri;
+      activateSlot(activeSlotRef.current, next, autoplay);
+    },
+    [activateSlot, activeController],
   );
 
   const skip = useCallback(
@@ -201,26 +202,9 @@ export function VinylPlayer() {
     [playTrack],
   );
 
-  const onTouchTransport = useCallback((action: () => void) => {
-    return (event: React.PointerEvent) => {
-      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') return;
-      event.preventDefault();
-      touchGuardRef.current = Date.now();
-      action();
-    };
-  }, []);
-
-  const onClickTransport = useCallback((action: () => void) => {
-    return () => {
-      if (Date.now() - touchGuardRef.current < 600) return;
-      action();
-    };
-  }, []);
-
   const toggle = useCallback(() => {
-    const controller = controllerRef.current;
+    const controller = activeController();
     if (!controller) return;
-    unlockedRef.current = true;
     if (playing) {
       playArmedRef.current = false;
       clearPlayRetries();
@@ -229,122 +213,138 @@ export function VinylPlayer() {
       return;
     }
     armPlay(controller);
-  }, [armPlay, clearPlayRetries, playing]);
+  }, [activeController, armPlay, clearPlayRetries, playing]);
 
-  const dismiss = useCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
-    dismissedRef.current = true;
-    playArmedRef.current = false;
-    clearPlayRetries();
-    controllerRef.current?.pause();
-    setPlaying(false);
-    closeVinyl();
-  }, [clearPlayRetries]);
+  const playFromGesture = useCallback(() => {
+    dismissedRef.current = false;
+    if (!vinylIsOpen()) openVinyl();
+    const controller = activeController();
+    if (!controller) return false;
+    armPlay(controller);
+    return true;
+  }, [activeController, armPlay]);
+
+  const dismiss = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      dismissedRef.current = true;
+      playArmedRef.current = false;
+      clearPlayRetries();
+      controllersRef.current.forEach((controller) => controller?.pause());
+      setPlaying(false);
+      closeVinyl();
+    },
+    [clearPlayRetries],
+  );
 
   const restore = useCallback(() => {
-    dismissedRef.current = false;
-    unlockedRef.current = true;
-    openVinyl();
-    const controller = controllerRef.current;
-    if (controller) armPlay(controller);
-  }, [armPlay]);
+    playFromGesture();
+  }, [playFromGesture]);
 
   useEffect(() => {
     dismissedRef.current = !visible;
   }, [visible]);
 
   useEffect(() => {
+    registerVinylEngine({
+      playFromGesture,
+      isReady: () => controllersRef.current.some(Boolean),
+    });
+    return () => registerVinylEngine(null);
+  }, [playFromGesture]);
+
+  useEffect(() => {
     if (!hostEl) return;
     let cancelled = false;
-    const iframeObserver = enableIframeAutoplay(hostEl);
+    const iframeObserver = prepareSpotifyIframe(hostEl);
+
+    const bind = (controller: EmbedController, slot: number) => {
+      if (cancelled) {
+        controller.destroy();
+        return;
+      }
+      controllersRef.current[slot] = controller;
+
+      controller.addListener('ready', () => {
+        if (cancelled) return;
+        setReady(true);
+        setVinylReady(true);
+        loadedAtRef.current = Date.now();
+        if (slot === activeSlotRef.current && !dismissedRef.current) {
+          if (!gestureOnlyRef.current) armPlay(controller);
+        }
+        if (slot === activeSlotRef.current) preloadStandby();
+      });
+
+      controller.addListener('playback_update', (event) => {
+        if (cancelled || dismissedRef.current) return;
+        if (slot !== activeSlotRef.current) return;
+
+        const { isPaused, isBuffering, duration, position, playingURI } =
+          event.data;
+        setPlaying(!isPaused);
+
+        if (playingURI) {
+          const id = playingURI.split(':').at(-1);
+          const found = spotifyTracks.findIndex((item) => item.id === id);
+          if (found >= 0 && found !== indexRef.current) {
+            indexRef.current = found;
+            setIndex(found);
+          }
+        }
+
+        if (!isPaused) {
+          unlockedRef.current = true;
+          playArmedRef.current = false;
+          clearPlayRetries();
+        } else if (playArmedRef.current && !isBuffering) {
+          startPlayback(controller);
+        }
+
+        const nearEnd = duration > 5000 && position >= duration * 0.97;
+        const justLoaded = Date.now() - loadedAtRef.current < 2000;
+        if (nearEnd && !justLoaded) {
+          if (!endedRef.current) {
+            endedRef.current = true;
+            playTrack(indexRef.current + 1, true);
+          }
+        } else if (!nearEnd) {
+          endedRef.current = false;
+        }
+      });
+    };
 
     const mount = (api: IFrameAPI) => {
-      if (cancelled || controllerRef.current) return;
+      if (cancelled || controllersRef.current[0]) return;
       hostEl.replaceChildren();
-      const element = document.createElement('div');
-      hostEl.appendChild(element);
 
-      api.createController(
-        element,
-        {
-          uri: spotifyTrackUri(spotifyTracks[indexRef.current].id),
-          width: 300,
-          height: 152,
-        },
-        (controller) => {
-          if (cancelled) {
-            controller.destroy();
-            return;
-          }
-          controllerRef.current = controller;
+      const first = trackUriAt(indexRef.current);
+      const second = trackUriAt(indexRef.current + 1);
+      uriRef.current = [first.uri, second.uri];
 
-          controller.addListener('ready', () => {
-            setReady(true);
-            loadedAtRef.current = Date.now();
-            if (!dismissedRef.current) {
-              armPlay(controller);
-            }
-          });
-
-          controller.addListener('playback_update', (event) => {
-            if (dismissedRef.current) return;
-            const { isPaused, isBuffering, duration, position, playingURI } =
-              event.data;
-            setPlaying(!isPaused);
-
-            if (playingURI) {
-              const id = playingURI.split(':').at(-1);
-              const found = spotifyTracks.findIndex((item) => item.id === id);
-              if (found >= 0 && found !== indexRef.current) {
-                indexRef.current = found;
-                setIndex(found);
-              }
-            }
-
-            if (!isPaused) {
-              unlockedRef.current = true;
-              playArmedRef.current = false;
-              clearPlayRetries();
-            } else if (playArmedRef.current && !isBuffering) {
-              startPlayback(controller);
-            }
-
-            const nearEnd = duration > 5000 && position >= duration * 0.97;
-            const justLoaded = Date.now() - loadedAtRef.current < 2000;
-            if (nearEnd && !justLoaded) {
-              if (!endedRef.current) {
-                endedRef.current = true;
-                playTrack(indexRef.current + 1, true);
-              }
-            } else if (!nearEnd) {
-              endedRef.current = false;
-            }
-          });
-        },
-      );
+      [0, 1].forEach((slot) => {
+        const element = document.createElement('div');
+        element.style.cssText = 'position:absolute;inset:0';
+        hostEl.appendChild(element);
+        api.createController(
+          element,
+          { uri: uriRef.current[slot], width: 160, height: 160 },
+          (controller) => bind(controller, slot),
+        );
+      });
     };
 
-    const previousReady = window.onSpotifyIframeApiReady;
-    window.onSpotifyIframeApiReady = (api) => {
-      previousReady?.(api);
-      window.__KOMA_SPOTIFY_IFRAME_API__ = api;
-      mount(api);
-    };
-
-    if (window.__KOMA_SPOTIFY_IFRAME_API__) {
-      mount(window.__KOMA_SPOTIFY_IFRAME_API__);
-    } else {
-      loadSpotifyIframeApi();
-    }
+    ensureSpotifyIframeApi(mount);
 
     return () => {
       cancelled = true;
       iframeObserver.disconnect();
       clearPlayRetries();
-      controllerRef.current?.destroy();
-      controllerRef.current = null;
+      controllersRef.current.forEach((controller) => controller?.destroy());
+      controllersRef.current = [null, null];
+      setVinylReady(false);
     };
-  }, [armPlay, clearPlayRetries, hostEl, playTrack]);
+  }, [armPlay, clearPlayRetries, hostEl, playTrack, preloadStandby]);
 
   useEffect(() => {
     if (!visible || !ready || unlockedRef.current) return;
@@ -353,29 +353,34 @@ export function VinylPlayer() {
       if (unlockedRef.current || dismissedRef.current) return;
       const target = event.target as HTMLElement | null;
       if (target?.closest('[data-vinyl-dismiss]')) return;
-      const controller = controllerRef.current;
-      if (controller) armPlay(controller);
+      if (target?.closest('[data-vinyl-transport]')) return;
+      if (target?.closest('[data-vinyl-ignore-unlock]')) return;
+      playVinylFromGesture();
     };
 
-    window.addEventListener('pointerdown', unlock, { capture: true });
-    window.addEventListener('keydown', unlock, { capture: true });
-    window.addEventListener('touchstart', unlock, { capture: true });
-    window.addEventListener('koma-preloader-done', unlock);
+    window.addEventListener('pointerup', unlock, { capture: true, passive: true });
+    window.addEventListener('click', unlock, { capture: true });
+    window.addEventListener('touchend', unlock, { capture: true, passive: true });
     return () => {
-      window.removeEventListener('pointerdown', unlock, { capture: true });
-      window.removeEventListener('keydown', unlock, { capture: true });
-      window.removeEventListener('touchstart', unlock, { capture: true });
-      window.removeEventListener('koma-preloader-done', unlock);
+      window.removeEventListener('pointerup', unlock, { capture: true });
+      window.removeEventListener('click', unlock, { capture: true });
+      window.removeEventListener('touchend', unlock, { capture: true });
     };
-  }, [armPlay, ready, visible, playing]);
+  }, [ready, visible]);
 
   return (
     <>
       <div
         ref={setHostEl}
-        className="pointer-events-none fixed right-0 bottom-3 z-0 size-[128px] overflow-hidden rounded-full opacity-[0.02] sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
+        className="pointer-events-none fixed right-0 bottom-3 z-0 size-[128px] overflow-hidden rounded-full opacity-100 sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
         aria-hidden="true"
       />
+      {!visible ? (
+        <div
+          className="pointer-events-none fixed right-0 bottom-3 z-[1] size-[128px] rounded-full bg-bg sm:bottom-5 sm:size-[148px] md:top-1/2 md:bottom-auto md:size-[164px] md:-translate-y-1/2"
+          aria-hidden="true"
+        />
+      ) : null}
       <AnimatePresence mode="wait">
         {visible ? (
           <motion.aside
@@ -454,12 +459,14 @@ export function VinylPlayer() {
                 </button>
 
                 <div className="absolute inset-x-0 bottom-[12%] z-20 flex flex-col items-center gap-1">
-                  <div className="flex touch-manipulation items-center gap-0.5 rounded-full border border-gold/35 bg-bg/80 px-1 py-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-md">
+                  <div
+                    data-vinyl-transport
+                    className="flex touch-manipulation items-center gap-0.5 rounded-full border border-gold/35 bg-bg/80 px-1 py-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-md"
+                  >
                     <button
                       type="button"
                       className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold sm:size-7"
-                      onPointerDown={onTouchTransport(() => skip(-1))}
-                      onClick={onClickTransport(() => skip(-1))}
+                      onClick={() => skip(-1)}
                       aria-label={t('previous')}
                     >
                       <SkipBack className="size-3 sm:size-3.5" fill="currentColor" />
@@ -467,8 +474,7 @@ export function VinylPlayer() {
                     <button
                       type="button"
                       className="inline-flex size-7 items-center justify-center rounded-full bg-gold text-bg transition-colors hover:bg-gold-bright sm:size-8"
-                      onPointerDown={onTouchTransport(toggle)}
-                      onClick={onClickTransport(toggle)}
+                      onClick={toggle}
                       aria-label={playing ? t('pause') : t('play')}
                     >
                       {playing ? (
@@ -480,8 +486,7 @@ export function VinylPlayer() {
                     <button
                       type="button"
                       className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold sm:size-7"
-                      onPointerDown={onTouchTransport(() => skip(1))}
-                      onClick={onClickTransport(() => skip(1))}
+                      onClick={() => skip(1)}
                       aria-label={t('next')}
                     >
                       <SkipForward className="size-3 sm:size-3.5" fill="currentColor" />
@@ -491,6 +496,7 @@ export function VinylPlayer() {
                     href={spotifyTrackUrl(track.id)}
                     target="_blank"
                     rel="noreferrer"
+                    data-vinyl-ignore-unlock
                     className="max-w-[7rem] truncate text-[8px] tracking-[0.18em] text-gold/80 uppercase hover:text-gold lg:hidden"
                   >
                     {track.title}
