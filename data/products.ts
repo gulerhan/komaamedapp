@@ -11,7 +11,7 @@ export const products: Product[] = [
   {
     slug: 'koma-tee',
     category: 'apparel',
-    price: 650,
+    price: 800,
     image: '/koma/band.jpg',
     featured: true,
   },
