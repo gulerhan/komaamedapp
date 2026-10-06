@@ -1,10 +1,9 @@
 'use client';
 
 import { SharpImage } from '@/components/ui/SharpImage';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { getFeaturedProducts } from '@/data/products';
 import { Link } from '@/i18n/navigation';
-import { formatPrice } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { buttonStyles } from '@/components/ui/Button';
@@ -12,7 +11,6 @@ import { buttonStyles } from '@/components/ui/Button';
 export function FeaturedProducts() {
   const t = useTranslations('FeaturedProducts');
   const productsT = useTranslations('ProductsContent');
-  const locale = useLocale();
   const featured = getFeaturedProducts();
 
   return (
@@ -41,9 +39,8 @@ export function FeaturedProducts() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
-                <div className="mt-4 flex items-start justify-between gap-3">
+                <div className="mt-4">
                   <h3 className="font-display text-2xl">{productsT(`${product.slug}.name`)}</h3>
-                  <p className="text-sm text-gold">{formatPrice(product.price, locale)}</p>
                 </div>
               </Link>
             </Reveal>

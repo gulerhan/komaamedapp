@@ -2,12 +2,11 @@
 
 import { useMemo, useState } from 'react';
 import { SharpImage } from '@/components/ui/SharpImage';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { products } from '@/data/products';
 import { productCategories, type Product, type ProductCategory } from '@/data/types';
-import { formatPrice } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { buttonStyles } from '@/components/ui/Button';
 import { whatsappUrl } from '@/lib/site';
@@ -18,7 +17,6 @@ export function ProductsCatalog() {
   const t = useTranslations('ProductsPage');
   const cats = useTranslations('Categories');
   const content = useTranslations('ProductsContent');
-  const locale = useLocale();
   const [filter, setFilter] = useState<Filter>('all');
   const [active, setActive] = useState<Product | null>(null);
 
@@ -70,14 +68,11 @@ export function ProductsCatalog() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
-              <div className="mt-4 flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-[10px] tracking-[0.2em] text-gold uppercase">
-                    {cats(product.category)}
-                  </p>
-                  <h2 className="font-display mt-1 text-2xl">{content(`${product.slug}.name`)}</h2>
-                </div>
-                <p className="text-sm text-fg-muted">{formatPrice(product.price, locale)}</p>
+              <div className="mt-4">
+                <p className="text-[10px] tracking-[0.2em] text-gold uppercase">
+                  {cats(product.category)}
+                </p>
+                <h2 className="font-display mt-1 text-2xl">{content(`${product.slug}.name`)}</h2>
               </div>
             </motion.button>
           ))}
@@ -103,10 +98,6 @@ export function ProductsCatalog() {
                     fill
                   />
                 </div>
-                <p className="mt-6 text-2xl text-gold">{formatPrice(active.price, locale)}</p>
-                <p className="mt-1 text-xs tracking-[0.16em] text-fg-muted uppercase">
-                  {t('priceNote')}
-                </p>
                 <div className="mt-8 flex gap-3">
                   <a
                     href={whatsappUrl(
