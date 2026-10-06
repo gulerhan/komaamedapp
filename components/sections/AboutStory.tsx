@@ -13,8 +13,10 @@ export function AboutStory() {
   return (
     <>
       <section className="relative isolate min-h-[70svh] overflow-hidden bg-bg">
-        <SharpImage src={ABOUT_IMAGE} alt="" fill priority sizes="100vw" />
-        <div className="absolute inset-0 bg-linear-to-t from-bg via-bg/55 to-bg/30" />
+        <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)]">
+          <SharpImage src={ABOUT_IMAGE} alt="" fill priority sizes="100vw" />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-linear-to-t from-bg via-bg/55 to-bg/30" />
         <Container className="relative z-10 flex min-h-[70svh] items-end pb-16 pt-32">
           <div>
             <p className="text-xs tracking-[0.28em] text-gold uppercase">{t('eyebrow')}</p>

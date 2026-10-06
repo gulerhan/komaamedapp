@@ -28,21 +28,23 @@ export function MemberStory({
   return (
     <article>
       <section className="relative isolate min-h-[88svh] overflow-hidden bg-bg">
-        <SharpImage
-          src={member.image}
-          alt={t('name')}
-          fill
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-bg via-bg/50 to-bg/20" />
+        <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)]">
+          <SharpImage
+            src={member.image}
+            alt={t('name')}
+            fill
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-linear-to-t from-bg via-bg/50 to-bg/20" />
         <Container className="relative z-10 flex min-h-[88svh] flex-col justify-end pb-16 pt-32">
           <p className="text-xs tracking-[0.28em] text-gold uppercase">{t('role')}</p>
           <h1 className="font-display mt-3 text-6xl md:text-8xl">{t('name')}</h1>
         </Container>
       </section>
 
-      <Container className="py-20 md:py-28">
+      <Container className="py-20 md:py-2">
         {quote ? (
           <Reveal>
             <blockquote className="font-display max-w-4xl text-3xl leading-tight text-fg md:text-5xl">
