@@ -19,14 +19,10 @@ export function MembersGrid() {
         >
           <div className="relative aspect-[5/4] overflow-hidden bg-bg md:aspect-auto md:min-h-40">
             <SharpImage
-              src={member.image}
+              src={`/members/cards/${member.slug}.jpg`}
               alt={t(`${member.slug}.name`)}
               fill
-              className={
-                member.slug === 'evdilmelik-sexbekir'
-                  ? 'object-cover object-center'
-                  : 'object-cover object-[center_18%]'
-              }
+              className="object-cover object-center"
               sizes="(max-width: 768px) 100vw, 208px"
             />
           </div>
