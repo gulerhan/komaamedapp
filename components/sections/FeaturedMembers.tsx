@@ -35,10 +35,10 @@ export function FeaturedMembers() {
                 <Link href={`/members/${member.slug}`} className="block">
                   <div className="relative aspect-[5/4] overflow-hidden">
                     <SharpImage
-                      src={member.image}
+                      src={`/members/stage/${member.slug}.jpg`}
                       alt={content(`${member.slug}.name`)}
                       fill
-                      className="object-cover object-[center_18%]"
+                      className="object-cover object-center"
                       sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                     />
                   </div>
