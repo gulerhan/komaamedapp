@@ -28,25 +28,26 @@ export function FeaturedMembers() {
             </Link>
           </div>
         </Reveal>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
           {featured.map((member, index) => (
             <Reveal key={member.slug} delay={index * 0.06}>
-              <TiltCard className="group relative overflow-hidden rounded-[2rem] bg-bg-surface">
+              <TiltCard className="group relative overflow-hidden rounded-[1.75rem] bg-bg-surface">
                 <Link href={`/members/${member.slug}`} className="block">
-                  <div className="relative aspect-3/4">
+                  <div className="relative aspect-[5/4] overflow-hidden">
                     <SharpImage
                       src={member.image}
                       alt={content(`${member.slug}.name`)}
                       fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover object-[center_18%]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent" />
-                  <div className="absolute right-6 bottom-6 left-6">
+                  <div className="absolute inset-0 bg-linear-to-t from-bg via-bg/25 to-transparent" />
+                  <div className="absolute right-5 bottom-5 left-5">
                     <p className="text-[11px] tracking-[0.22em] text-gold uppercase">
                       {content(`${member.slug}.role`)}
                     </p>
-                    <h3 className="font-display mt-1 text-3xl md:text-4xl">
+                    <h3 className="font-display mt-1 text-2xl sm:text-3xl">
                       {content(`${member.slug}.name`)}
                     </h3>
                   </div>
