@@ -30,10 +30,11 @@ export function MemberStory({
       <section className="relative isolate min-h-[88svh] overflow-hidden bg-bg">
         <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)]">
           <SharpImage
-            src={member.image}
+            src={`/members/heroes/${member.slug}.jpg`}
             alt={t('name')}
             fill
             priority
+            className="object-cover object-center"
             sizes="100vw"
           />
         </div>
