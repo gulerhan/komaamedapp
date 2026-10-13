@@ -1,12 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 
 export function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hover, setHover] = useState(false);
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const dotX = useSpring(x, { stiffness: 500, damping: 28, mass: 0.4 });
+  const dotY = useSpring(y, { stiffness: 500, damping: 28, mass: 0.4 });
+  const ringX = useSpring(x, { stiffness: 180, damping: 22, mass: 0.6 });
+  const ringY = useSpring(y, { stiffness: 180, damping: 22, mass: 0.6 });
 
   useEffect(() => {
     const media = window.matchMedia('(pointer: fine)');
@@ -19,14 +24,19 @@ export function CustomCursor() {
   useEffect(() => {
     if (!enabled) return;
     document.documentElement.classList.add('has-custom-cursor');
+    let hovering = false;
 
     const onMove = (event: MouseEvent) => {
-      setPos({ x: event.clientX, y: event.clientY });
+      x.set(event.clientX);
+      y.set(event.clientY);
       const target = event.target as HTMLElement | null;
-      const hoverable = Boolean(
+      const next = Boolean(
         target?.closest('a, button, [role="button"], input, textarea, select'),
       );
-      setHover(hoverable);
+      if (next !== hovering) {
+        hovering = next;
+        setHover(next);
+      }
     };
 
     window.addEventListener('mousemove', onMove, { passive: true });
@@ -34,7 +44,7 @@ export function CustomCursor() {
       window.removeEventListener('mousemove', onMove);
       document.documentElement.classList.remove('has-custom-cursor');
     };
-  }, [enabled]);
+  }, [enabled, x, y]);
 
   if (!enabled) return null;
 
@@ -42,24 +52,18 @@ export function CustomCursor() {
     <>
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 z-[90] mix-blend-difference"
-        animate={{
-          x: pos.x - 4,
-          y: pos.y - 4,
-          scale: hover ? 0.6 : 1,
-        }}
+        className="pointer-events-none fixed top-0 left-0 z-[90]"
+        style={{ x: dotX, y: dotY, translateX: '-50%', translateY: '-50%' }}
+        animate={{ scale: hover ? 0.6 : 1 }}
         transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.4 }}
       >
         <span className="block size-2 rounded-full bg-gold-bright" />
       </motion.div>
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 z-[90] mix-blend-difference"
-        animate={{
-          x: pos.x - 18,
-          y: pos.y - 18,
-          scale: hover ? 1.55 : 1,
-        }}
+        className="pointer-events-none fixed top-0 left-0 z-[90]"
+        style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
+        animate={{ scale: hover ? 1.55 : 1 }}
         transition={{ type: 'spring', stiffness: 180, damping: 22, mass: 0.6 }}
       >
         <span className="block size-9 rounded-full border border-gold-bright/80" />
