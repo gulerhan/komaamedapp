@@ -64,6 +64,12 @@ export default async function LocaleLayout({
       className={`${fontSans.variable} ${fontDisplay.variable} ${fontAccent.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full bg-bg font-sans text-fg">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('koma-preloader')==='1'){var s=document.createElement('style');s.textContent='[data-preloader]{display:none!important}';document.head.appendChild(s)}}catch(e){}",
+          }}
+        />
         <JsonLd data={musicGroupJsonLd()} />
         <LocaleProvider initialLocale={locale}>
           <Providers>

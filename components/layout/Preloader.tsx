@@ -7,13 +7,15 @@ import { readSessionFlag, writeSessionFlag } from '@/lib/spotify-embed';
 
 export function Preloader() {
   const t = useTranslations('Preloader');
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const letters = 'KOMA AMED'.split('');
 
   useEffect(() => {
-    if (readSessionFlag('koma-preloader')) return;
+    if (readSessionFlag('koma-preloader')) {
+      setVisible(false);
+      return;
+    }
 
-    setVisible(true);
     const hide = window.setTimeout(() => {
       setVisible(false);
       writeSessionFlag('koma-preloader', true);
@@ -27,6 +29,7 @@ export function Preloader() {
     <AnimatePresence>
       {visible ? (
         <motion.div
+          data-preloader
           className="fixed inset-0 z-[95] flex items-center justify-center bg-bg"
           exit={{ y: '-100%', transition: { duration: 0.85, ease: [0.76, 0, 0.24, 1] } }}
           role="status"
