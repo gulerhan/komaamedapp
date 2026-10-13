@@ -129,23 +129,48 @@ body {
 }
 
 .vinyl-dock {
-  transform: translateX(8%);
+  --vinyl-x: 0px;
+  --vinyl-y: 0px;
+  transform: translate(calc(8% + var(--vinyl-x)), var(--vinyl-y));
   transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: grab;
+  touch-action: none;
+}
+
+.vinyl-dock.is-dragging,
+.vinyl-dock.is-dragging:hover,
+.vinyl-dock.is-dragging:focus-within {
+  cursor: grabbing;
+  transition: none;
+  user-select: none;
+  transform: translate(calc(8% + var(--vinyl-x)), var(--vinyl-y));
+}
+
+.vinyl-dock button,
+.vinyl-dock a {
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .vinyl-dock:hover,
 .vinyl-dock:focus-within {
-  transform: translateX(2%);
+  transform: translate(calc(2% + var(--vinyl-x)), var(--vinyl-y));
 }
 
 @media (max-width: 767px) {
   .vinyl-dock {
-    transform: translateX(4%);
+    transform: translate(calc(4% + var(--vinyl-x)), var(--vinyl-y));
   }
 
   .vinyl-dock:hover,
   .vinyl-dock:focus-within {
-    transform: translateX(0);
+    transform: translate(var(--vinyl-x), var(--vinyl-y));
+  }
+
+  .vinyl-dock.is-dragging,
+  .vinyl-dock.is-dragging:hover,
+  .vinyl-dock.is-dragging:focus-within {
+    transform: translate(calc(4% + var(--vinyl-x)), var(--vinyl-y));
   }
 }
 

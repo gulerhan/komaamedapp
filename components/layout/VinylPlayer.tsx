@@ -29,6 +29,31 @@ import {
 } from '@/lib/spotify';
 
 const STORAGE_KEY = 'koma-vinyl-dismissed';
+const OFFSET_KEY = 'koma-vinyl-offset';
+
+type VinylOffset = { x: number; y: number };
+
+function readVinylOffset(): VinylOffset {
+  try {
+    const raw = sessionStorage.getItem(OFFSET_KEY);
+    if (!raw) return { x: 0, y: 0 };
+    const parsed = JSON.parse(raw) as Partial<VinylOffset>;
+    return {
+      x: typeof parsed.x === 'number' && Number.isFinite(parsed.x) ? parsed.x : 0,
+      y: typeof parsed.y === 'number' && Number.isFinite(parsed.y) ? parsed.y : 0,
+    };
+  } catch {
+    return { x: 0, y: 0 };
+  }
+}
+
+function writeVinylOffset(offset: VinylOffset) {
+  try {
+    sessionStorage.setItem(OFFSET_KEY, JSON.stringify(offset));
+  } catch {
+    /* Safari private mode can block storage */
+  }
+}
 const vinylListeners = new Set<() => void>();
 
 function subscribeVinyl(onStoreChange: () => void) {
@@ -84,6 +109,20 @@ export function VinylPlayer() {
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [offset, setOffset] = useState<VinylOffset>({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const offsetRef = useRef<VinylOffset>({ x: 0, y: 0 });
+  const dragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originX: number;
+    originY: number;
+    startLeft: number;
+    startTop: number;
+    width: number;
+    height: number;
+  } | null>(null);
 
   useEffect(() => {
     const media = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -100,7 +139,70 @@ export function VinylPlayer() {
   }, []);
 
   const track = spotifyTracks[index];
-  const showDismiss = !fineHover || hovered;
+  const showDismiss = !fineHover || hovered || dragging;
+
+  const applyOffset = useCallback((next: VinylOffset) => {
+    offsetRef.current = next;
+    setOffset(next);
+  }, []);
+
+  useEffect(() => {
+    applyOffset(readVinylOffset());
+  }, [applyOffset]);
+
+  const onDockPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('button, a')) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      /* Pointer capture needs a real user gesture. */
+    }
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: offsetRef.current.x,
+      originY: offsetRef.current.y,
+      startLeft: rect.left,
+      startTop: rect.top,
+      width: rect.width,
+      height: rect.height,
+    };
+    setDragging(true);
+  }, []);
+
+  const onDockPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const minLeft = 8;
+    const minTop = 8;
+    const maxLeft = Math.max(minLeft, window.innerWidth - drag.width - 8);
+    const maxTop = Math.max(minTop, window.innerHeight - drag.height - 8);
+    const left = Math.min(maxLeft, Math.max(minLeft, drag.startLeft + (event.clientX - drag.startX)));
+    const top = Math.min(maxTop, Math.max(minTop, drag.startTop + (event.clientY - drag.startY)));
+    applyOffset({
+      x: drag.originX + (left - drag.startLeft),
+      y: drag.originY + (top - drag.startTop),
+    });
+  }, [applyOffset]);
+
+  const endDockDrag = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    setDragging(false);
+    writeVinylOffset(offsetRef.current);
+    try {
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    } catch {
+      /* Pointer capture needs a real user gesture. */
+    }
+  }, []);
 
   const clearPlayRetries = useCallback(() => {
     retryTimersRef.current.forEach((id) => window.clearTimeout(id));
@@ -387,7 +489,20 @@ export function VinylPlayer() {
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
             <div
-              className="vinyl-dock group pointer-events-auto relative flex items-center"
+              className={cn(
+                'vinyl-dock group pointer-events-auto relative flex items-center',
+                dragging && 'is-dragging',
+              )}
+              style={
+                {
+                  '--vinyl-x': `${offset.x}px`,
+                  '--vinyl-y': `${offset.y}px`,
+                } as React.CSSProperties
+              }
+              onPointerDown={onDockPointerDown}
+              onPointerMove={onDockPointerMove}
+              onPointerUp={endDockDrag}
+              onPointerCancel={endDockDrag}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               onFocusCapture={() => setHovered(true)}
