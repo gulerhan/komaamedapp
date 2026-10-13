@@ -21,6 +21,10 @@ export const socialLinks = [
     id: 'spotify',
     href: 'https://open.spotify.com/artist/7JSWeBX8NSPIy0bbNnp9Gc',
   },
+  {
+    id: 'youtube',
+    href: 'https://www.youtube.com/@komaamed',
+  },
 ] as const;
 
 export const musicEmbeds = {
