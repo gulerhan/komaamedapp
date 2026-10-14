@@ -45,13 +45,18 @@ export function SiteHeader() {
           href="/"
           className="flex items-center gap-3 text-fg"
         >
-          <SharpImage
-            src="/koma/komaamedlogo.png"
-            alt={common('brand')}
-            width={2119}
-            height={327}
-            className="h-6 w-auto sm:h-3 lg:h-5"
-            priority
+         <span
+          role="img"
+          aria-label={common('brand')}
+          className="block h-6 aspect-[2119/327] bg-gold sm:h-3 lg:h-5"
+          style={{
+            maskImage: 'url(/koma/komaamedlogo.png)',
+            WebkitMaskImage: 'url(/koma/komaamedlogo.png)',
+            maskSize: 'contain',
+            WebkitMaskSize: 'contain',
+            maskRepeat: 'no-repeat',
+            WebkitMaskRepeat: 'no-repeat',
+          }}
           />
         </Link>
 
