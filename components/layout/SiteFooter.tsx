@@ -65,9 +65,19 @@ export function SiteFooter() {
     <footer className="relative overflow-hidden border-t border-border bg-bg-elevated">
       <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-16 md:grid-cols-3 md:px-8 lg:px-12">
         <div>
-          <p className="font-accent text-sm tracking-[0.28em] text-gold uppercase">
-            {common('brand')}
-          </p>
+          <span
+            role="img"
+            aria-label={common('brand')}
+            className="block h-4 aspect-[2119/327] bg-gold"
+            style={{
+              maskImage: 'url(/koma/komaamedlogo.png)',
+              WebkitMaskImage: 'url(/koma/komaamedlogo.png)',
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain',
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+            }}
+          />
           <p className="font-display mt-4 max-w-sm text-2xl text-fg/90">
             {t('tagline')}
           </p>
