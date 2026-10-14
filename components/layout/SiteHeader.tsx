@@ -46,14 +46,6 @@ export function SiteHeader() {
           className="flex items-center gap-3 text-fg"
         >
           <SharpImage
-            src="/koma/mark.jpg"
-            alt="Koma Amed"
-            width={500}
-            height={500}
-            className="size-11"
-            priority
-          />
-          <SharpImage
             src="/koma/komaamedlogo.png"
             alt={common('brand')}
             width={2119}
