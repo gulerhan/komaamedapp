@@ -53,9 +53,14 @@ export function SiteHeader() {
             className="size-11"
             priority
           />
-          <span className="font-accent text-sm tracking-[0.28em] uppercase">
-            {common('brand')}
-          </span>
+          <SharpImage
+            src="/koma/komaamedlogo.png"
+            alt={common('brand')}
+            width={2119}
+            height={327}
+            className="h-6 w-auto sm:h-3 lg:h-5"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-6 xl:gap-8 lg:flex" aria-label="Main">
