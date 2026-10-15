@@ -26,7 +26,7 @@ export function AboutStory() {
           </div>
         </Container>
       </section>
-      <Container className="py-20 md:py-28">
+      <Container className="py-4 md:py-8">
         <Reveal>
           <p className="font-display max-w-3xl text-3xl leading-tight md:text-4xl">{t('lead')}</p>
         </Reveal>
@@ -45,8 +45,8 @@ export function AboutStory() {
             { n: '02', title: t('chapter2'), body: t('chapter2Body') },
             { n: '03', title: t('chapter3'), body: t('chapter3Body') },
           ].map((item, index) => (
-            <Reveal key={item.n} delay={index * 0.08}>
-              <article className="rounded-[1.6rem] border border-border bg-bg-surface p-8">
+            <Reveal key={item.n} delay={index * 0.08} className="h-full">
+              <article className="flex h-full flex-col rounded-[1.6rem] border border-border bg-bg-surface p-8">
                 <p className="text-xs tracking-[0.22em] text-gold uppercase">{item.n}</p>
                 <h2 className="font-display mt-4 text-3xl">{item.title}</h2>
                 <p className="mt-4 text-fg-muted">{item.body}</p>
