@@ -45,7 +45,7 @@ export function MemberStory({
         </Container>
       </section>
 
-      <Container className="py-20 md:py-2">
+      <Container className="py-4 md:py-2">
         {quote ? (
           <Reveal>
             <blockquote className="font-display max-w-4xl text-3xl leading-tight text-fg md:text-5xl">
@@ -54,7 +54,7 @@ export function MemberStory({
           </Reveal>
         ) : null}
 
-        <div className="mt-16 grid gap-10 border-y border-border py-10 md:grid-cols-2">
+        <div className="mt-8 grid gap-10 border-y border-border py-10 md:grid-cols-2">
           <div>
             <p className="text-[11px] tracking-[0.22em] text-fg-muted uppercase">{ui('role')}</p>
             <p className="mt-2 text-xl">{t('role')}</p>
@@ -69,12 +69,12 @@ export function MemberStory({
 
         {story ? (
           <Reveal>
-            <p className="mt-16 max-w-3xl text-lg leading-relaxed text-fg-muted">{story}</p>
+            <p className="mt-8 max-w-3xl text-lg leading-relaxed text-fg-muted">{story}</p>
           </Reveal>
         ) : null}
 
         {timeline.length > 0 ? (
-          <div className="mt-20">
+          <div className="mt-16">
             <h2 className="text-xs tracking-[0.28em] text-gold uppercase">{ui('story')}</h2>
             <ol className="relative mt-10 border-l border-gold/30 pl-8">
               {timeline.map((item, index) => (
@@ -91,7 +91,7 @@ export function MemberStory({
           </div>
         ) : null}
 
-        <div className="mt-24">
+        <div className="mt-20">
           <h2 className="text-xs tracking-[0.28em] text-gold uppercase">{ui('gallery')}</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {member.gallery.map((src, index) => (
