@@ -76,7 +76,7 @@ export function Hero() {
         </p>
         <div className="hero-cta mt-10 flex flex-wrap items-center gap-4">
           <Magnetic>
-            <Link href="/members" className={buttonStyles({ variant: 'gold' })}>
+            <Link href="/about-us" className={buttonStyles({ variant: 'gold' })}>
               {t('ctaPrimary')}
             </Link>
           </Magnetic>

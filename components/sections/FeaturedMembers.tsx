@@ -23,7 +23,7 @@ export function FeaturedMembers() {
               <p className="text-xs tracking-[0.28em] text-gold uppercase">{t('eyebrow')}</p>
               <h2 className="font-display mt-3 text-4xl md:text-6xl">{t('title')}</h2>
             </div>
-            <Link href="/members" className={buttonStyles({ variant: 'outline' })}>
+            <Link href="/about-us" className={buttonStyles({ variant: 'outline' })}>
               {t('cta')}
             </Link>
           </div>

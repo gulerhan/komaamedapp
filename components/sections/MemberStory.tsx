@@ -115,7 +115,7 @@ export function MemberStory({
             <p className="font-display mt-2 text-3xl group-hover:text-gold">{prevT('name')}</p>
           </Link>
           <Link
-            href="/members"
+            href="/about-us"
             className="self-center text-center text-xs tracking-[0.22em] text-gold uppercase"
           >
             {ui('back')}

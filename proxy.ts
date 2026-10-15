@@ -8,6 +8,13 @@ const localePrefix = new RegExp(`^/(${routing.locales.join('|')})(?=/|$)`);
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const prefixed = pathname.match(localePrefix);
+  const bare = (prefixed ? pathname.slice(prefixed[0].length) : pathname).replace(/\/$/, '') || '/';
+
+  if (bare === '/members' || bare === '/about') {
+    const url = request.nextUrl.clone();
+    url.pathname = bare === '/members' ? '/about-us' : '/story';
+    return NextResponse.redirect(url, 308);
+  }
 
   if (prefixed) {
     const url = request.nextUrl.clone();

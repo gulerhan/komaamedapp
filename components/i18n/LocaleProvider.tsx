@@ -57,9 +57,9 @@ function documentTitle(locale: Locale, pathname: string) {
   if (path === '/') return messages.MetaHome.title;
 
   let segment: string = messages.Meta.title;
-  if (path === '/members') segment = messages.MetaMembers.title;
+  if (path === '/about-us') segment = messages.MetaMembers.title;
   else if (path === '/products') segment = messages.MetaProducts.title;
-  else if (path === '/about') segment = messages.MetaAbout.title;
+  else if (path === '/story') segment = messages.MetaAbout.title;
   else if (path === '/contact') segment = messages.MetaContact.title;
   else if (path.startsWith('/members/')) {
     const slug = path.slice('/members/'.length);

@@ -11,9 +11,9 @@ import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
 
 const links = [
   { href: '/', key: 'home' as const },
-  { href: '/members', key: 'members' as const },
+  { href: '/about-us', key: 'members' as const },
   { href: '/products', key: 'products' as const },
-  { href: '/about', key: 'about' as const },
+  { href: '/story', key: 'about' as const },
   { href: '/contact', key: 'contact' as const },
 ];
 
@@ -65,7 +65,9 @@ export function SiteHeader() {
             const active =
               link.href === '/'
                 ? pathname === '/'
-                : pathname.startsWith(link.href);
+                : link.href === '/about-us'
+                  ? pathname === '/about-us' || pathname.startsWith('/members/')
+                  : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}
