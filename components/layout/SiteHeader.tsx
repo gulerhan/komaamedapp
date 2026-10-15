@@ -48,7 +48,7 @@ export function SiteHeader() {
          <span
           role="img"
           aria-label={common('brand')}
-          className="block h-6 aspect-[2119/327] bg-gold sm:h-3 lg:h-5"
+          className="block h-6 aspect-[2169/327] bg-gold sm:h-3 lg:h-5"
           style={{
             maskImage: 'url(/koma/komaamedlogo.png)',
             WebkitMaskImage: 'url(/koma/komaamedlogo.png)',

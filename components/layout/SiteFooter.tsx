@@ -68,7 +68,7 @@ export function SiteFooter() {
           <span
             role="img"
             aria-label={common('brand')}
-            className="block h-4 aspect-[2119/327] bg-gold"
+            className="block h-4 aspect-[2169/327] bg-gold"
             style={{
               maskImage: 'url(/koma/komaamedlogo.png)',
               WebkitMaskImage: 'url(/koma/komaamedlogo.png)',
