@@ -39,7 +39,7 @@ export function MemberStory({
           />
         </div>
         <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-linear-to-t from-bg via-bg/50 to-bg/20" />
-        <Container className="relative z-10 flex min-h-[88svh] flex-col justify-end pb-16 pt-32">
+        <Container className="relative z-10 flex min-h-[88svh] flex-col justify-end pt-32">
           <p className="text-xs tracking-[0.28em] text-gold uppercase">{t('role')}</p>
           <h1 className="font-display mt-3 text-6xl md:text-8xl">{t('name')}</h1>
         </Container>
@@ -81,9 +81,9 @@ export function MemberStory({
                 <Reveal key={`${item.year}-${index}`} delay={index * 0.08}>
                   <li className="relative mb-12 last:mb-0">
                     <span className="absolute top-1.5 -left-[39px] size-3 rounded-full bg-gold" />
-                    <p className="text-sm tracking-[0.2em] text-gold">{item.year}</p>
-                    <h3 className="font-display mt-2 text-3xl">{item.title}</h3>
-                    <p className="mt-2 max-w-xl text-fg-muted">{item.text}</p>
+                    <p className="mt-4 ext-sm tracking-[0.2em] text-gold">{item.year}</p>
+                    <h3 className="font-display text-3xl">{item.title}</h3>
+                    <p className=" max-w-xl text-fg-muted">{item.text}</p>
                   </li>
                 </Reveal>
               ))}
