@@ -94,17 +94,21 @@ export function loadTrack(controller: EmbedController, uri: string) {
   controller.loadUri(uri, false, 0);
 }
 
+function ignorePlaybackRejection(run: () => unknown) {
+  try {
+    void Promise.resolve(run()).catch(() => {});
+  } catch {
+    /* Spotify rejects play, resume, and pause when no queue is loaded yet. */
+  }
+}
+
 export function startPlayback(controller: EmbedController) {
-  try {
-    controller.play();
-  } catch {
-    /* controller may not be ready yet */
-  }
-  try {
-    controller.resume?.();
-  } catch {
-    /* resume is optional on older embeds */
-  }
+  ignorePlaybackRejection(() => controller.play());
+  if (controller.resume) ignorePlaybackRejection(() => controller.resume());
+}
+
+export function pausePlayback(controller: EmbedController) {
+  ignorePlaybackRejection(() => controller.pause());
 }
 
 export function prepareSpotifyIframe(root: HTMLElement) {

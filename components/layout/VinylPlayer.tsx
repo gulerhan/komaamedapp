@@ -12,6 +12,7 @@ import {
   ensureSpotifyIframeApi,
   isGestureLockedBrowser,
   loadTrack,
+  pausePlayback,
   prepareSpotifyIframe,
   readSessionFlag,
   startPlayback,
@@ -265,7 +266,8 @@ export function VinylPlayer() {
   const activateSlot = useCallback(
     (slot: number, nextIndex: number, autoplay: boolean) => {
       const other = 1 - slot;
-      controllersRef.current[other]?.pause();
+      const standby = controllersRef.current[other];
+      if (standby) pausePlayback(standby);
       activeSlotRef.current = slot;
       indexRef.current = nextIndex;
       setIndex(nextIndex);
@@ -324,7 +326,7 @@ export function VinylPlayer() {
     if (playing) {
       playArmedRef.current = false;
       clearPlayRetries();
-      controller.pause();
+      pausePlayback(controller);
       setPlaying(false);
       return;
     }
@@ -346,7 +348,9 @@ export function VinylPlayer() {
       dismissedRef.current = true;
       playArmedRef.current = false;
       clearPlayRetries();
-      controllersRef.current.forEach((controller) => controller?.pause());
+      controllersRef.current.forEach((controller) => {
+        if (controller) pausePlayback(controller);
+      });
       setPlaying(false);
       closeVinyl();
     },
