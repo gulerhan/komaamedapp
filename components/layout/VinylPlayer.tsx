@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Disc3, Pause, Play, SkipBack, SkipForward, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
@@ -50,6 +50,13 @@ function writeVinylOffset(offset: VinylOffset) {
     /* Safari private mode can block storage */
   }
 }
+
+function headerBottom() {
+  const header = document.querySelector('header');
+  if (!header) return 8;
+  return Math.ceil(header.getBoundingClientRect().bottom);
+}
+
 const vinylListeners = new Set<() => void>();
 
 function subscribeVinyl(onStoreChange: () => void) {
@@ -142,8 +149,19 @@ export function VinylPlayer() {
     setOffset(next);
   }, []);
 
-  useEffect(() => {
-    applyOffset(readVinylOffset());
+  useLayoutEffect(() => {
+    const saved = readVinylOffset();
+    const dock = document.querySelector<HTMLElement>('.vinyl-dock');
+    if (!dock) {
+      applyOffset(saved);
+      return;
+    }
+    const predictedTop =
+      dock.getBoundingClientRect().top + (saved.y - offsetRef.current.y);
+    const overflow = headerBottom() - predictedTop;
+    const next = overflow > 0 ? { x: saved.x, y: saved.y + overflow } : saved;
+    applyOffset(next);
+    if (overflow > 0) writeVinylOffset(next);
   }, [applyOffset]);
 
   const onDockPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
@@ -174,7 +192,7 @@ export function VinylPlayer() {
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     const minLeft = 8;
-    const minTop = 8;
+    const minTop = headerBottom();
     const maxLeft = Math.max(minLeft, window.innerWidth - drag.width - 8);
     const maxTop = Math.max(minTop, window.innerHeight - drag.height - 8);
     const left = Math.min(maxLeft, Math.max(minLeft, drag.startLeft + (event.clientX - drag.startX)));
