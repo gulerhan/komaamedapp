@@ -17,11 +17,7 @@ import {
   startPlayback,
   writeSessionFlag,
 } from '@/lib/spotify-embed';
-import {
-  playVinylFromGesture,
-  registerVinylEngine,
-  setVinylReady,
-} from '@/lib/vinyl-bridge';
+import { playVinylFromGesture, registerVinylEngine } from '@/lib/vinyl-bridge';
 import {
   spotifyTrackUri,
   spotifyTrackUrl,
@@ -350,7 +346,6 @@ export function VinylPlayer() {
   useEffect(() => {
     registerVinylEngine({
       playFromGesture,
-      isReady: () => controllersRef.current.some(Boolean),
     });
     return () => registerVinylEngine(null);
   }, [playFromGesture]);
@@ -370,7 +365,6 @@ export function VinylPlayer() {
       controller.addListener('ready', () => {
         if (cancelled) return;
         setReady(true);
-        setVinylReady(true);
         loadedAtRef.current = Date.now();
         if (slot === activeSlotRef.current && !dismissedRef.current) {
           if (!gestureOnlyRef.current) armPlay(controller);
@@ -444,7 +438,6 @@ export function VinylPlayer() {
       clearPlayRetries();
       controllersRef.current.forEach((controller) => controller?.destroy());
       controllersRef.current = [null, null];
-      setVinylReady(false);
     };
   }, [armPlay, clearPlayRetries, hostEl, playTrack, preloadStandby]);
 

@@ -8,7 +8,6 @@ const buttonStyles = cva(
       variant: {
         gold: 'bg-gold text-bg hover:bg-gold-bright',
         outline: 'border border-gold/50 text-gold hover:bg-gold hover:text-bg',
-        ghost: 'text-fg-muted hover:text-gold',
       },
     },
     defaultVariants: {

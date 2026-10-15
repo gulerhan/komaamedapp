@@ -5,8 +5,6 @@ export type SpotifyTrack = {
   cover: string;
 };
 
-export const spotifyArtistId = '7JSWeBX8NSPIy0bbNnp9Gc';
-
 export const spotifyTracks: SpotifyTrack[] = [
   {
     id: '0CmACsAwXsiqdCxhuwoB77',

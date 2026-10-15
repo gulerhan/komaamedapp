@@ -16,7 +16,6 @@ export type ProductSlug = 'dergus-vinyl' | 'koma-tee';
 export type Member = {
   slug: MemberSlug;
   displayName: string;
-  initials: string;
   image: string;
   gallery: readonly [string, string, string];
   featured: boolean;
@@ -25,7 +24,6 @@ export type Member = {
 export type Product = {
   slug: ProductSlug;
   category: ProductCategory;
-  price: number;
   image: string;
   featured: boolean;
 };
