@@ -51,7 +51,6 @@ export function MemberStory({
             <blockquote className="font-display max-w-4xl text-3xl leading-tight text-fg md:text-5xl">
               “{quote}”
             </blockquote>
-            <p className="mt-6 text-xs tracking-[0.22em] text-gold uppercase">{ui('quoteLabel')}</p>
           </Reveal>
         ) : null}
 
