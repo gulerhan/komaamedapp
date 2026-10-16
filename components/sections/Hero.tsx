@@ -1,13 +1,23 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { SharpImage } from '@/components/ui/SharpImage';
 import { useTranslations } from 'next-intl';
 import { ArrowDown } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { buttonStyles } from '@/components/ui/Button';
 import { Magnetic } from '@/components/ui/Magnetic';
+import { cn } from '@/lib/utils';
 
-const HERO_IMAGE = '/koma/band.jpg';
+const HERO_IMAGES = [
+  '/imgs/koma_amed1.jpg',
+  '/imgs/koma_amed2.jpg',
+  '/imgs/koma_amed3.jpg',
+  '/imgs/koma_amed4.jpg',
+  '/imgs/koma_amed5.jpg',
+];
+
+const SLIDE_MS = 6000;
 
 function AnimatedWord({ word, delay }: { word: string; delay: number }) {
   return (
@@ -27,17 +37,36 @@ function AnimatedWord({ word, delay }: { word: string; delay: number }) {
 
 export function Hero() {
   const t = useTranslations('Hero');
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (media.matches) return;
+
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % HERO_IMAGES.length);
+    }, SLIDE_MS);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
     <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-bg">
       <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)]">
-        <SharpImage
-          src={HERO_IMAGE}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-        />
+        {HERO_IMAGES.map((src, imageIndex) => (
+          <SharpImage
+            key={src}
+            src={src}
+            alt=""
+            fill
+            priority={imageIndex === 0}
+            sizes="100vw"
+            className={cn(
+              'object-cover transition-opacity duration-[1200ms] ease-in-out',
+              imageIndex === index ? 'opacity-100' : 'opacity-0',
+            )}
+          />
+        ))}
       </div>
       <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-linear-to-b from-bg/20 via-bg/55 to-bg" />
       <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-[radial-gradient(ellipse_at_20%_20%,rgba(196,92,58,0.22),transparent_50%),radial-gradient(ellipse_at_80%_70%,rgba(201,164,92,0.16),transparent_46%)]" />
