@@ -6,7 +6,6 @@ import { getFeaturedProducts } from '@/data/products';
 import { Link } from '@/i18n/navigation';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
-import { buttonStyles } from '@/components/ui/Button';
 
 export function FeaturedProducts() {
   const t = useTranslations('FeaturedProducts');
@@ -17,14 +16,9 @@ export function FeaturedProducts() {
     <section className=" md:py-32">
       <Container>
         <Reveal>
-          <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs tracking-[0.28em] text-gold uppercase">{t('eyebrow')}</p>
-              <h2 className="font-display mt-3 text-4xl md:text-6xl">{t('title')}</h2>
-            </div>
-            <Link href="/products" className={buttonStyles({ variant: 'outline' })}>
-              {t('cta')}
-            </Link>
+          <div className="mb-12">
+            <p className="text-xs tracking-[0.28em] text-gold uppercase">{t('eyebrow')}</p>
+            <h2 className="font-display mt-3 text-4xl md:text-6xl">{t('title')}</h2>
           </div>
         </Reveal>
         <div className="grid w-full max-w-3xl gap-6 sm:grid-cols-2">
