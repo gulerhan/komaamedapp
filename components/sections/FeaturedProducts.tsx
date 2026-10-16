@@ -14,7 +14,7 @@ export function FeaturedProducts() {
   const featured = getFeaturedProducts();
 
   return (
-    <section className="py-24 md:py-32">
+    <section className=" md:py-32">
       <Container>
         <Reveal>
           <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
