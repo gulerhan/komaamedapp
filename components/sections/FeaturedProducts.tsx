@@ -27,7 +27,7 @@ export function FeaturedProducts() {
             </Link>
           </div>
         </Reveal>
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid w-full max-w-3xl gap-6 sm:grid-cols-2">
           {featured.map((product, index) => (
             <Reveal key={product.slug} delay={index * 0.08}>
               <Link href="/products" className="group block">
