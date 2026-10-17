@@ -106,6 +106,7 @@ export function ProductsCatalog() {
                 </div>
                 {active.sizes ? (
                   <div className="mt-8">
+                    <p className="mb-6 text-xs leading-relaxed text-fg-muted">{t('sizeNote')}</p>
                     <p className="text-[11px] tracking-[0.2em] text-fg-muted uppercase">
                       {t('size')}
                     </p>

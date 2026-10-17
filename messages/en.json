@@ -338,6 +338,7 @@
     "inquireMessage": "Hello, I would like information about {name}.",
     "inquireMessageSize": "Hello, I would like information about {name} (size {size}).",
     "size": "Size",
+    "sizeNote": "Our tees are a slim fit. We recommend one size up from your usual size.",
     "close": "Close",
     "priceNote": "Price is a catalogue estimate; nothing is sold on this site"
   },

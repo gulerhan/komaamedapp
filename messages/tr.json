@@ -338,6 +338,7 @@
     "inquireMessage": "Merhaba, {name} hakkında bilgi almak istiyorum.",
     "inquireMessageSize": "Merhaba, {name} ({size} beden) hakkında bilgi almak istiyorum.",
     "size": "Beden",
+    "sizeNote": "Tişört kalıplarımız slim fit (dar) bedendir. Normal bedeninizin bir beden büyüğünü tavsiye ederiz.",
     "close": "Kapat",
     "priceNote": "Fiyat katalog tahminidir; sitede satış yoktur"
   },

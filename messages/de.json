@@ -338,6 +338,7 @@
     "inquireMessage": "Hallo, ich möchte Informationen zu {name}.",
     "inquireMessageSize": "Hallo, ich möchte Informationen zu {name} (Größe {size}).",
     "size": "Größe",
+    "sizeNote": "Unsere T-Shirts haben einen Slim-Fit-Schnitt (eng). Wir empfehlen eine Größe größer als Ihre übliche Größe.",
     "close": "Schließen",
     "priceNote": "Preis ist eine Katalogschätzung; auf der Seite wird nichts verkauft"
   },
