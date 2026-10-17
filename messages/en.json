@@ -387,7 +387,7 @@
   "Contact": {
     "eyebrow": "Write",
     "title": "Stage,\ncollaboration.",
-    "body": "The form is validated on the client. If a Formspree id is set, it goes there; otherwise your mail client opens.",
+    "body": "Get in touch with us for stage dates and collaborations.",
     "name": "Name",
     "email": "Email",
     "message": "Message",
