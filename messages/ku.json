@@ -337,6 +337,13 @@
     "inquire": "Agahiyê bigire",
     "inquireMessage": "Silav, ez li ser {name} agahiyê dixwazim.",
     "inquireMessageSize": "Silav, ez li ser {name} (mezinahî {size}) agahiyê dixwazim.",
+    "inquireMessageVariant": "Silav, ez li ser {name} ({details}) agahiyê dixwazim.",
+    "sizeDetail": "mezinahî {size}",
+    "color": "Reng",
+    "colors": {
+      "black": "Reş",
+      "white": "Spî"
+    },
     "size": "Mezinahî",
     "sizeNote": "Qalibên tişortên me slim fit (teng) in. Em pêşniyar dikin ku hûn mezinahiyek ji ya xwe ya asayî mezintir hilbijêrin.",
     "close": "Bigire",

@@ -6,7 +6,12 @@ import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { products } from '@/data/products';
-import { productCategories, type Product, type ProductCategory } from '@/data/types';
+import {
+  productCategories,
+  type Product,
+  type ProductCategory,
+  type ProductColor,
+} from '@/data/types';
 import { cn } from '@/lib/utils';
 import { buttonStyles } from '@/components/ui/Button';
 import { whatsappUrl } from '@/lib/site';
@@ -20,10 +25,23 @@ export function ProductsCatalog() {
   const [filter, setFilter] = useState<Filter>('all');
   const [active, setActive] = useState<Product | null>(null);
   const [size, setSize] = useState<string | null>(null);
+  const [color, setColor] = useState<ProductColor | null>(null);
 
   function openProduct(product: Product | null) {
     setActive(product);
     setSize(null);
+    setColor(product?.colors?.[0] ?? null);
+  }
+
+  function inquiryText(product: Product) {
+    const name = content(`${product.slug}.name`);
+    if (color) {
+      const colorName = t(`colors.${color.id}`);
+      const details = size ? `${colorName}, ${t('sizeDetail', { size })}` : colorName;
+      return t('inquireMessageVariant', { name, details });
+    }
+    if (size) return t('inquireMessageSize', { name, size });
+    return t('inquireMessage', { name });
   }
 
   const filters: Filter[] = ['all', ...productCategories];
@@ -72,6 +90,7 @@ export function ProductsCatalog() {
                   alt={content(`${product.slug}.name`)}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover"
                 />
               </div>
               <div className="mt-4">
@@ -99,11 +118,44 @@ export function ProductsCatalog() {
                 </Dialog.Description>
                 <div className="relative mt-8 aspect-square overflow-hidden rounded-[1.5rem] bg-bg-surface">
                   <SharpImage
-                    src={active.image}
+                    src={color?.image ?? active.image}
                     alt={content(`${active.slug}.name`)}
                     fill
+                    className="object-cover"
                   />
                 </div>
+                {active.colors ? (
+                  <div className="mt-8">
+                    <p className="text-[11px] tracking-[0.2em] text-fg-muted uppercase">
+                      {t('color')}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {active.colors.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setColor(item)}
+                          aria-pressed={color?.id === item.id}
+                          className={cn(
+                            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs tracking-[0.14em] transition-colors',
+                            color?.id === item.id
+                              ? 'border-gold bg-gold text-bg'
+                              : 'border-border text-fg hover:border-gold hover:text-gold',
+                          )}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              'size-3 rounded-full border border-fg/40',
+                              item.id === 'black' ? 'bg-black' : 'bg-white',
+                            )}
+                          />
+                          {t(`colors.${item.id}`)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 {active.sizes ? (
                   <div className="mt-8">
                     <p className="mb-6 text-xs leading-relaxed text-fg-muted">{t('sizeNote')}</p>
@@ -132,11 +184,7 @@ export function ProductsCatalog() {
                 ) : null}
                 <div className="mt-8 flex gap-3">
                   <a
-                    href={whatsappUrl(
-                      size
-                        ? t('inquireMessageSize', { name: content(`${active.slug}.name`), size })
-                        : t('inquireMessage', { name: content(`${active.slug}.name`) }),
-                    )}
+                    href={whatsappUrl(inquiryText(active))}
                     target="_blank"
                     rel="noreferrer"
                     className={buttonStyles({ variant: 'gold' })}

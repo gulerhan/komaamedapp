@@ -337,6 +337,13 @@
     "inquire": "Inquire",
     "inquireMessage": "Hello, I would like information about {name}.",
     "inquireMessageSize": "Hello, I would like information about {name} (size {size}).",
+    "inquireMessageVariant": "Hello, I would like information about {name} ({details}).",
+    "sizeDetail": "size {size}",
+    "color": "Color",
+    "colors": {
+      "black": "Black",
+      "white": "White"
+    },
     "size": "Size",
     "sizeNote": "Our tees are a slim fit. We recommend one size up from your usual size.",
     "close": "Close",

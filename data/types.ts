@@ -27,6 +27,12 @@ export type Product = {
   image: string;
   featured: boolean;
   sizes?: readonly string[];
+  colors?: readonly ProductColor[];
+};
+
+export type ProductColor = {
+  id: 'black' | 'white';
+  image: string;
 };
 
 export type TimelineItem = {

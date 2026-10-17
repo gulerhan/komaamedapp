@@ -337,6 +337,13 @@
     "inquire": "Bilgi al",
     "inquireMessage": "Merhaba, {name} hakkında bilgi almak istiyorum.",
     "inquireMessageSize": "Merhaba, {name} ({size} beden) hakkında bilgi almak istiyorum.",
+    "inquireMessageVariant": "Merhaba, {name} ({details}) hakkında bilgi almak istiyorum.",
+    "sizeDetail": "{size} beden",
+    "color": "Renk",
+    "colors": {
+      "black": "Siyah",
+      "white": "Beyaz"
+    },
     "size": "Beden",
     "sizeNote": "Tişört kalıplarımız slim fit (dar) bedendir. Normal bedeninizin bir beden büyüğünü tavsiye ederiz.",
     "close": "Kapat",
