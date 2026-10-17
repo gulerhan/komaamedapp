@@ -84,13 +84,13 @@ export function ProductsCatalog() {
               onClick={() => openProduct(product)}
               className="group text-left"
             >
-              <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-bg-surface">
+              <div className="product-stage relative aspect-square overflow-hidden rounded-[1.6rem]">
                 <SharpImage
                   src={product.image}
                   alt={content(`${product.slug}.name`)}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover"
+                  className={product.category === 'apparel' ? 'object-contain p-6' : 'object-cover'}
                 />
               </div>
               <div className="mt-4">
@@ -116,12 +116,12 @@ export function ProductsCatalog() {
                 <Dialog.Description className="mt-3 text-fg-muted">
                   {content(`${active.slug}.description`)}
                 </Dialog.Description>
-                <div className="relative mt-8 aspect-square overflow-hidden rounded-[1.5rem] bg-bg-surface">
+                <div className="product-stage relative mt-8 aspect-square overflow-hidden rounded-[1.5rem]">
                   <SharpImage
                     src={color?.image ?? active.image}
                     alt={content(`${active.slug}.name`)}
                     fill
-                    className="object-cover"
+                    className={active.category === 'apparel' ? 'object-contain p-6' : 'object-cover'}
                   />
                 </div>
                 {active.colors ? (

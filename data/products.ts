@@ -10,12 +10,12 @@ export const products: Product[] = [
   {
     slug: 'koma-tee',
     category: 'apparel',
-    image: '/clothing_imgs/koma_amed_tshirt1.jpg',
+    image: '/clothing_imgs/koma_amed_tshirt1.png',
     featured: true,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: [
-      { id: 'black', image: '/clothing_imgs/koma_amed_tshirt1.jpg' },
-      { id: 'white', image: '/clothing_imgs/koma_amed_tshirt2.jpg' },
+      { id: 'black', image: '/clothing_imgs/koma_amed_tshirt1.png' },
+      { id: 'white', image: '/clothing_imgs/koma_amed_tshirt2.png' },
     ],
   },
 ];

@@ -25,13 +25,13 @@ export function FeaturedProducts() {
           {featured.map((product, index) => (
             <Reveal key={product.slug} delay={index * 0.08}>
               <Link href="/products" className="group block">
-                <div className="relative aspect-square overflow-hidden rounded-[1.5rem] bg-bg-surface">
+                <div className="product-stage relative aspect-square overflow-hidden rounded-[1.5rem]">
                   <SharpImage
                     src={product.image}
                     alt={productsT(`${product.slug}.name`)}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
+                    className={product.category === 'apparel' ? 'object-contain p-6' : 'object-cover'}
                   />
                 </div>
                 <div className="mt-4">

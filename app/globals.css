@@ -257,6 +257,12 @@ body {
   animation: hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.5s both;
 }
 
+.product-stage {
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in oklab, var(--gold) 22%, transparent), transparent 65%),
+    var(--bg-surface);
+}
+
 .no-scrollbar {
   scrollbar-width: none;
 }
