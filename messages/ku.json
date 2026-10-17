@@ -336,6 +336,8 @@
     "all": "Hemû",
     "inquire": "Agahiyê bigire",
     "inquireMessage": "Silav, ez li ser {name} agahiyê dixwazim.",
+    "inquireMessageSize": "Silav, ez li ser {name} (mezinahî {size}) agahiyê dixwazim.",
+    "size": "Mezinahî",
     "close": "Bigire",
     "priceNote": "Biha texmîna katalogê ye; li ser malperê firotin tune"
   },

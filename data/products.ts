@@ -12,6 +12,7 @@ export const products: Product[] = [
     category: 'apparel',
     image: '/koma/band.jpg',
     featured: true,
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
   },
 ];
 

@@ -19,6 +19,12 @@ export function ProductsCatalog() {
   const content = useTranslations('ProductsContent');
   const [filter, setFilter] = useState<Filter>('all');
   const [active, setActive] = useState<Product | null>(null);
+  const [size, setSize] = useState<string | null>(null);
+
+  function openProduct(product: Product | null) {
+    setActive(product);
+    setSize(null);
+  }
 
   const filters: Filter[] = ['all', ...productCategories];
   const visible = useMemo(
@@ -57,7 +63,7 @@ export function ProductsCatalog() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.35 }}
-              onClick={() => setActive(product)}
+              onClick={() => openProduct(product)}
               className="group text-left"
             >
               <div className="relative aspect-square overflow-hidden rounded-[1.6rem] bg-bg-surface">
@@ -79,7 +85,7 @@ export function ProductsCatalog() {
         </AnimatePresence>
       </motion.div>
 
-      <Dialog.Root open={Boolean(active)} onOpenChange={(open) => !open && setActive(null)}>
+      <Dialog.Root open={Boolean(active)} onOpenChange={(open) => !open && openProduct(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm" />
           <Dialog.Content className="fixed inset-y-0 right-0 z-[70] w-full max-w-lg overflow-y-auto border-l border-border bg-bg-elevated p-8 shadow-2xl">
@@ -98,10 +104,37 @@ export function ProductsCatalog() {
                     fill
                   />
                 </div>
+                {active.sizes ? (
+                  <div className="mt-8">
+                    <p className="text-[11px] tracking-[0.2em] text-fg-muted uppercase">
+                      {t('size')}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {active.sizes.map((item) => (
+                        <button
+                          key={item}
+                          type="button"
+                          onClick={() => setSize(item)}
+                          aria-pressed={size === item}
+                          className={cn(
+                            'min-w-12 rounded-full border px-4 py-2 text-xs tracking-[0.14em] transition-colors',
+                            size === item
+                              ? 'border-gold bg-gold text-bg'
+                              : 'border-border text-fg hover:border-gold hover:text-gold',
+                          )}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 <div className="mt-8 flex gap-3">
                   <a
                     href={whatsappUrl(
-                      t('inquireMessage', { name: content(`${active.slug}.name`) }),
+                      size
+                        ? t('inquireMessageSize', { name: content(`${active.slug}.name`), size })
+                        : t('inquireMessage', { name: content(`${active.slug}.name`) }),
                     )}
                     target="_blank"
                     rel="noreferrer"

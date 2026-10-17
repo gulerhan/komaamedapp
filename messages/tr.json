@@ -336,6 +336,8 @@
     "all": "Tümü",
     "inquire": "Bilgi al",
     "inquireMessage": "Merhaba, {name} hakkında bilgi almak istiyorum.",
+    "inquireMessageSize": "Merhaba, {name} ({size} beden) hakkında bilgi almak istiyorum.",
+    "size": "Beden",
     "close": "Kapat",
     "priceNote": "Fiyat katalog tahminidir; sitede satış yoktur"
   },

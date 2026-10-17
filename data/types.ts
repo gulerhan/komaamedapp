@@ -26,6 +26,7 @@ export type Product = {
   category: ProductCategory;
   image: string;
   featured: boolean;
+  sizes?: readonly string[];
 };
 
 export type TimelineItem = {

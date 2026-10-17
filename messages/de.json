@@ -336,6 +336,8 @@
     "all": "Alle",
     "inquire": "Anfragen",
     "inquireMessage": "Hallo, ich möchte Informationen zu {name}.",
+    "inquireMessageSize": "Hallo, ich möchte Informationen zu {name} (Größe {size}).",
+    "size": "Größe",
     "close": "Schließen",
     "priceNote": "Preis ist eine Katalogschätzung; auf der Seite wird nichts verkauft"
   },
