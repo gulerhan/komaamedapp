@@ -36,12 +36,20 @@ export default async function ContactPage({
       <Container className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <PageHero namespace="Contact" />
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="mt-8 inline-block text-gold underline-offset-4 hover:underline"
-          >
-            {siteConfig.email}
-          </a>
+          <div className="mt-8 flex flex-col items-start gap-2">
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="text-gold underline-offset-4 hover:underline"
+            >
+              {siteConfig.email}
+            </a>
+            <a
+              href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
+              className="text-gold underline-offset-4 hover:underline"
+            >
+              {siteConfig.phone}
+            </a>
+          </div>
         </div>
         <Reveal delay={0.1}>
           <ContactForm />
