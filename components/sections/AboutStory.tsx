@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 
-const ABOUT_IMAGE = '/koma/band.jpg';
+const ABOUT_IMAGE = '/imgs/koma_amed1.jpg';
 
 export function AboutStory() {
   const t = useTranslations('About');
@@ -14,7 +14,14 @@ export function AboutStory() {
     <>
       <section className="relative isolate min-h-[70svh] overflow-hidden bg-bg">
         <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)]">
-          <SharpImage src={ABOUT_IMAGE} alt="" fill priority sizes="100vw" />
+          <SharpImage
+            src={ABOUT_IMAGE}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
         <div className="absolute inset-x-0 bottom-0 top-[var(--header-h)] bg-linear-to-t from-bg via-bg/55 to-bg/30" />
         <Container className="relative z-10 flex min-h-[70svh] items-end pb-16 pt-32">
