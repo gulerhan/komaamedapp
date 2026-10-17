@@ -386,10 +386,10 @@
   },
   "Contact": {
     "eyebrow": "Yazın",
-    "title": "Sahne, basım,\niş birliği.",
+    "title": "Sahne,\niş birliği.",
     "body": "Form istemci tarafında doğrulanır. Formspree kimliği eklenirse gönderim oraya gider; yoksa e-posta istemciniz açılır.",
     "name": "Ad",
-    "email": "E-posta",
+    "email": "E-posta", 
     "message": "Mesaj",
     "send": "Gönder",
     "sending": "Gönderiliyor…",
@@ -397,7 +397,7 @@
     "errorName": "Lütfen adınızı yazın.",
     "errorEmail": "Geçerli bir e-posta girin.",
     "errorMessage": "Mesaj en az 10 karakter olmalı.",
-    "mailtoSubject": "Koma Amed — iletişim"
+    "mailtoSubject": "Koma Amed - iletişim"
   },
   "Preloader": {
     "label": "Yükleniyor",
