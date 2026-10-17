@@ -33,7 +33,7 @@ export function AboutStory() {
           </div>
         </Container>
       </section>
-      <Container className="py-4 md:py-8">
+      <Container className="py-16 md:py-8">
         <Reveal>
           <p className="font-display max-w-3xl text-3xl leading-tight md:text-4xl">{t('lead')}</p>
         </Reveal>
