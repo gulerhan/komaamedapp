@@ -13,7 +13,7 @@ export function FeaturedProducts() {
   const featured = getFeaturedProducts();
 
   return (
-    <section className=" md:py-32">
+    <section className="md:py-8">
       <Container>
         <Reveal>
           <div className="mb-12">
