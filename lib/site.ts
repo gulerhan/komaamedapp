@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Koma Amed',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://komaamed.com',
-  email: 'hello@komaamed.com',
+  email: 'komaamedhuner@gmail.com',
   phone: '+90 555 555 55 55',
   formspreeId: process.env.NEXT_PUBLIC_FORMSPREE_ID ?? '',
   whatsapp: '905383535677',

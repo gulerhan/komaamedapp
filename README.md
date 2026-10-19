@@ -64,7 +64,7 @@ Spotify artist embed and social URLs live in `lib/site.ts`. YouTube iframe is om
 
 ## Contact form
 
-Client-side validation only. By default the form opens a `mailto:` to `hello@komaamed.com`.
+Client-side validation only. By default the form opens a `mailto:` to `komaamedhuner@gmail.com`.
 
 To use [Formspree](https://formspree.io):
 
