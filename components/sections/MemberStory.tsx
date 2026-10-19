@@ -20,6 +20,7 @@ export function MemberStory({
   const ui = useTranslations('Member');
   const prevT = useTranslations(`MembersContent.${prev.slug}`);
   const nextT = useTranslations(`MembersContent.${next.slug}`);
+  const albumT = useTranslations('ProductsContent');
   const quote = t('quote').trim();
   const story = t('story').trim();
   const birthPlace = t('birthPlace').trim();
@@ -99,7 +100,9 @@ export function MemberStory({
                 <div className="relative aspect-square overflow-hidden rounded-[1.25rem] bg-bg-surface">
                   <SharpImage
                     src={src}
-                    alt={`${t('name')} ${index + 1}`}
+                    alt={albumT(
+                      `${src.split('/').pop()!.replace(/\.\w+$/, '') as 'dergus' | 'kulilka-azadi'}.name`,
+                    )}
                     fill
                     sizes="(max-width: 640px) 50vw, 288px"
                   />
