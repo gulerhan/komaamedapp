@@ -58,7 +58,8 @@
     "next": "Weiter",
     "previous": "Zurück",
     "dismiss": "Platte schließen",
-    "restore": "Platte öffnen"
+    "restore": "Platte öffnen",
+    "loading": "Wird geladen"
   },
   "Intro": {
     "eyebrow": "01 — Die Gruppe",

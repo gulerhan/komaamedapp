@@ -58,7 +58,8 @@
     "next": "Next",
     "previous": "Previous",
     "dismiss": "Close vinyl",
-    "restore": "Open vinyl"
+    "restore": "Open vinyl",
+    "loading": "Loading"
   },
   "Intro": {
     "eyebrow": "01 — The group",

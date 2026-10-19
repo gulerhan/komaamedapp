@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Disc3, Pause, Play, SkipBack, SkipForward, X } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { Disc3, LoaderCircle, Pause, Play, SkipBack, SkipForward, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { SharpImage } from '@/components/ui/SharpImage';
@@ -14,19 +14,13 @@ import {
   loadTrack,
   pausePlayback,
   prepareSpotifyIframe,
-  readSessionFlag,
   startPlayback,
-  writeSessionFlag,
 } from '@/lib/spotify-embed';
-import { playVinylFromGesture, registerVinylEngine } from '@/lib/vinyl-bridge';
-import {
-  spotifyTrackUri,
-  spotifyTrackUrl,
-  spotifyTracks,
-} from '@/lib/spotify';
+import { spotifyTrackUri, spotifyTracks } from '@/lib/spotify';
 
 const STORAGE_KEY = 'koma-vinyl-dismissed';
 const OFFSET_KEY = 'koma-vinyl-offset';
+const COMPACT_QUERY = '(max-width: 767px)';
 
 type VinylOffset = { x: number; y: number };
 
@@ -70,17 +64,22 @@ function subscribeVinyl(onStoreChange: () => void) {
 }
 
 function vinylIsOpen() {
-  return !readSessionFlag(STORAGE_KEY);
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw === '1') return false;
+    if (raw === '0') return true;
+  } catch {
+    /* Safari private mode can block storage */
+  }
+  return !window.matchMedia(COMPACT_QUERY).matches;
 }
 
-function closeVinyl() {
-  writeSessionFlag(STORAGE_KEY, true);
-  vinylListeners.forEach((listener) => listener());
-  window.dispatchEvent(new Event('koma-vinyl'));
-}
-
-function openVinyl() {
-  writeSessionFlag(STORAGE_KEY, false);
+function setVinylOpen(open: boolean) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, open ? '0' : '1');
+  } catch {
+    /* Safari private mode can block storage */
+  }
   vinylListeners.forEach((listener) => listener());
   window.dispatchEvent(new Event('koma-vinyl'));
 }
@@ -93,7 +92,11 @@ function trackUriAt(index: number) {
 export function VinylPlayer() {
   const t = useTranslations('Player');
   const [fineHover, setFineHover] = useState(true);
-  const [visible, setVisible] = useState(true);
+  const visible = useSyncExternalStore<boolean | null>(
+    subscribeVinyl,
+    vinylIsOpen,
+    () => null,
+  );
   const controllersRef = useRef<[EmbedController | null, EmbedController | null]>([
     null,
     null,
@@ -103,19 +106,23 @@ export function VinylPlayer() {
   const indexRef = useRef(0);
   const unlockedRef = useRef(false);
   const endedRef = useRef(false);
-  const dismissedRef = useRef(false);
+  const dismissedRef = useRef(true);
   const loadedAtRef = useRef(0);
   const playArmedRef = useRef(false);
+  const pendingPlayRef = useRef(false);
   const gestureOnlyRef = useRef(false);
   const retryTimersRef = useRef<number[]>([]);
   const [hostEl, setHostEl] = useState<HTMLDivElement | null>(null);
+  const [activated, setActivated] = useState(false);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [offset, setOffset] = useState<VinylOffset>({ x: 0, y: 0 });
+  const [offset, setOffset] = useState<VinylOffset>(() =>
+    typeof window === 'undefined' ? { x: 0, y: 0 } : readVinylOffset(),
+  );
   const [dragging, setDragging] = useState(false);
-  const offsetRef = useRef<VinylOffset>({ x: 0, y: 0 });
+  const offsetRef = useRef<VinylOffset>(offset);
   const dragRef = useRef<{
     pointerId: number;
     startX: number;
@@ -138,11 +145,10 @@ export function VinylPlayer() {
 
   useEffect(() => {
     gestureOnlyRef.current = isGestureLockedBrowser();
-    setVisible(vinylIsOpen());
-    return subscribeVinyl(() => setVisible(vinylIsOpen()));
   }, []);
 
   const track = spotifyTracks[index];
+  const loading = activated && !ready;
   const showDismiss = !fineHover || hovered || dragging;
 
   const applyOffset = useCallback((next: VinylOffset) => {
@@ -150,20 +156,24 @@ export function VinylPlayer() {
     setOffset(next);
   }, []);
 
-  useLayoutEffect(() => {
-    const saved = readVinylOffset();
-    const dock = document.querySelector<HTMLElement>('.vinyl-dock');
-    if (!dock) {
-      applyOffset(saved);
-      return;
-    }
-    const predictedTop =
-      dock.getBoundingClientRect().top + (saved.y - offsetRef.current.y);
-    const overflow = headerBottom() - predictedTop;
-    const next = overflow > 0 ? { x: saved.x, y: saved.y + overflow } : saved;
-    applyOffset(next);
-    if (overflow > 0) writeVinylOffset(next);
-  }, [applyOffset]);
+  useEffect(() => {
+    if (!visible) return;
+    const keepBelowHeader = () => {
+      const dock = document.querySelector<HTMLElement>('.vinyl-dock');
+      if (!dock || dragRef.current) return;
+      const overflow = headerBottom() - dock.getBoundingClientRect().top;
+      if (overflow <= 0) return;
+      const next = { x: offsetRef.current.x, y: offsetRef.current.y + overflow };
+      applyOffset(next);
+      writeVinylOffset(next);
+    };
+    const frame = window.requestAnimationFrame(keepBelowHeader);
+    window.addEventListener('resize', keepBelowHeader);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', keepBelowHeader);
+    };
+  }, [applyOffset, visible]);
 
   const onDockPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
@@ -313,67 +323,70 @@ export function VinylPlayer() {
     [activateSlot, activeController],
   );
 
+  const requestPlay = useCallback(() => {
+    dismissedRef.current = false;
+    pendingPlayRef.current = true;
+    setActivated(true);
+    const controller = activeController();
+    if (controller) armPlay(controller);
+  }, [activeController, armPlay]);
+
   const skip = useCallback(
     (direction: 1 | -1) => {
+      if (!ready) {
+        if (activated) return;
+        const { index: next } = trackUriAt(indexRef.current + direction);
+        indexRef.current = next;
+        setIndex(next);
+        requestPlay();
+        return;
+      }
+      pendingPlayRef.current = true;
       playTrack(indexRef.current + direction, true);
     },
-    [playTrack],
+    [activated, playTrack, ready, requestPlay],
   );
 
   const toggle = useCallback(() => {
-    const controller = activeController();
-    if (!controller) return;
+    if (loading) return;
     if (playing) {
+      pendingPlayRef.current = false;
       playArmedRef.current = false;
       clearPlayRetries();
-      pausePlayback(controller);
+      const controller = activeController();
+      if (controller) pausePlayback(controller);
       setPlaying(false);
       return;
     }
-    armPlay(controller);
-  }, [activeController, armPlay, clearPlayRetries, playing]);
-
-  const playFromGesture = useCallback(() => {
-    dismissedRef.current = false;
-    if (!vinylIsOpen()) openVinyl();
-    const controller = activeController();
-    if (!controller) return false;
-    armPlay(controller);
-    return true;
-  }, [activeController, armPlay]);
+    requestPlay();
+  }, [activeController, clearPlayRetries, loading, playing, requestPlay]);
 
   const dismiss = useCallback(
     (event: React.MouseEvent) => {
       event.stopPropagation();
       dismissedRef.current = true;
+      pendingPlayRef.current = false;
       playArmedRef.current = false;
       clearPlayRetries();
       controllersRef.current.forEach((controller) => {
         if (controller) pausePlayback(controller);
       });
       setPlaying(false);
-      closeVinyl();
+      setVinylOpen(false);
     },
     [clearPlayRetries],
   );
 
   const restore = useCallback(() => {
-    playFromGesture();
-  }, [playFromGesture]);
+    setVinylOpen(true);
+  }, []);
 
   useEffect(() => {
     dismissedRef.current = !visible;
   }, [visible]);
 
   useEffect(() => {
-    registerVinylEngine({
-      playFromGesture,
-    });
-    return () => registerVinylEngine(null);
-  }, [playFromGesture]);
-
-  useEffect(() => {
-    if (!hostEl) return;
+    if (!hostEl || !activated) return;
     let cancelled = false;
     const iframeObserver = prepareSpotifyIframe(hostEl);
 
@@ -385,13 +398,16 @@ export function VinylPlayer() {
       controllersRef.current[slot] = controller;
 
       controller.addListener('ready', () => {
-        if (cancelled) return;
-        setReady(true);
-        loadedAtRef.current = Date.now();
-        if (slot === activeSlotRef.current && !dismissedRef.current) {
-          if (!gestureOnlyRef.current) armPlay(controller);
+        if (cancelled || slot !== activeSlotRef.current) return;
+        const wanted = trackUriAt(indexRef.current).uri;
+        if (uriRef.current[slot] !== wanted) {
+          loadTrack(controller, wanted);
+          uriRef.current[slot] = wanted;
         }
-        if (slot === activeSlotRef.current) preloadStandby();
+        loadedAtRef.current = Date.now();
+        setReady(true);
+        if (pendingPlayRef.current && !dismissedRef.current) armPlay(controller);
+        preloadStandby();
       });
 
       controller.addListener('playback_update', (event) => {
@@ -413,6 +429,7 @@ export function VinylPlayer() {
 
         if (!isPaused) {
           unlockedRef.current = true;
+          pendingPlayRef.current = false;
           playArmedRef.current = false;
           clearPlayRetries();
         } else if (playArmedRef.current && !isBuffering) {
@@ -461,29 +478,7 @@ export function VinylPlayer() {
       controllersRef.current.forEach((controller) => controller?.destroy());
       controllersRef.current = [null, null];
     };
-  }, [armPlay, clearPlayRetries, hostEl, playTrack, preloadStandby]);
-
-  useEffect(() => {
-    if (!visible || !ready || unlockedRef.current) return;
-
-    const unlock = (event: Event) => {
-      if (unlockedRef.current || dismissedRef.current) return;
-      const target = event.target as HTMLElement | null;
-      if (target?.closest('[data-vinyl-dismiss]')) return;
-      if (target?.closest('[data-vinyl-transport]')) return;
-      if (target?.closest('[data-vinyl-ignore-unlock]')) return;
-      playVinylFromGesture();
-    };
-
-    window.addEventListener('pointerup', unlock, { capture: true, passive: true });
-    window.addEventListener('click', unlock, { capture: true });
-    window.addEventListener('touchend', unlock, { capture: true, passive: true });
-    return () => {
-      window.removeEventListener('pointerup', unlock, { capture: true });
-      window.removeEventListener('click', unlock, { capture: true });
-      window.removeEventListener('touchend', unlock, { capture: true });
-    };
-  }, [ready, visible]);
+  }, [activated, armPlay, clearPlayRetries, hostEl, playTrack, preloadStandby]);
 
   return (
     <>
@@ -493,7 +488,7 @@ export function VinylPlayer() {
         aria-hidden="true"
       />
       <AnimatePresence mode="wait">
-        {visible ? (
+        {visible === null ? null : visible ? (
           <motion.aside
             key="koma-vinyl"
             className="pointer-events-none fixed right-0 bottom-3 z-40 sm:bottom-5 md:top-1/2 md:bottom-auto md:-translate-y-1/2"
@@ -575,7 +570,6 @@ export function VinylPlayer() {
                     'absolute top-1 left-1 z-30 inline-flex size-6 items-center justify-center rounded-full border border-gold/40 bg-bg/85 text-fg shadow-md backdrop-blur-md transition-opacity hover:bg-gold hover:text-bg md:size-7',
                     showDismiss ? 'opacity-100' : 'opacity-0',
                   )}
-                  data-vinyl-dismiss
                   onClick={dismiss}
                   aria-label={t('dismiss')}
                 >
@@ -583,25 +577,26 @@ export function VinylPlayer() {
                 </button>
 
                 <div className="absolute inset-x-0 bottom-[12%] z-20 flex flex-col items-center gap-1">
-                  <div
-                    data-vinyl-transport
-                    className="flex touch-manipulation items-center gap-0.5 rounded-full border border-gold/35 bg-bg/80 px-1 py-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-md"
-                  >
+                  <div className="flex touch-manipulation items-center gap-0.5 rounded-full border border-gold/35 bg-bg/80 px-1 py-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.45)] backdrop-blur-md">
                     <button
                       type="button"
-                      className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold sm:size-7"
+                      className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold disabled:opacity-40 disabled:hover:text-fg sm:size-7"
                       onClick={() => skip(-1)}
+                      disabled={loading}
                       aria-label={t('previous')}
                     >
                       <SkipBack className="size-3 sm:size-3.5" fill="currentColor" />
                     </button>
                     <button
                       type="button"
-                      className="inline-flex size-7 items-center justify-center rounded-full bg-gold text-bg transition-colors hover:bg-gold-bright sm:size-8"
+                      className="inline-flex size-7 items-center justify-center rounded-full bg-gold text-bg transition-colors hover:bg-gold-bright aria-busy:cursor-wait sm:size-8"
                       onClick={toggle}
-                      aria-label={playing ? t('pause') : t('play')}
+                      aria-busy={loading}
+                      aria-label={loading ? t('loading') : playing ? t('pause') : t('play')}
                     >
-                      {playing ? (
+                      {loading ? (
+                        <LoaderCircle className="size-3.5 animate-spin sm:size-4" strokeWidth={2.5} />
+                      ) : playing ? (
                         <Pause className="size-3 sm:size-3.5" fill="currentColor" />
                       ) : (
                         <Play className="size-3 translate-x-px sm:size-3.5" fill="currentColor" />
@@ -609,22 +604,14 @@ export function VinylPlayer() {
                     </button>
                     <button
                       type="button"
-                      className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold sm:size-7"
+                      className="inline-flex size-6 items-center justify-center rounded-full text-fg transition-colors hover:text-gold disabled:opacity-40 disabled:hover:text-fg sm:size-7"
                       onClick={() => skip(1)}
+                      disabled={loading}
                       aria-label={t('next')}
                     >
                       <SkipForward className="size-3 sm:size-3.5" fill="currentColor" />
                     </button>
                   </div>
-                  <a
-                    href={spotifyTrackUrl(track.id)}
-                    target="_blank"
-                    rel="noreferrer"
-                    data-vinyl-ignore-unlock
-                    className="sr-only"
-                  >
-                    {track.title}
-                  </a>
                 </div>
               </div>
             </div>

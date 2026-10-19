@@ -58,7 +58,8 @@
     "next": "Sıradaki",
     "previous": "Önceki",
     "dismiss": "Plakı kapat",
-    "restore": "Plakı aç"
+    "restore": "Plakı aç",
+    "loading": "Yükleniyor"
   },
   "Intro": {
     "eyebrow": "01 — Grup",
