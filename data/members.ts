@@ -1,7 +1,6 @@
 import type { Member, MemberSlug } from '@/data/types';
 
-const gallery: readonly [string, string, string] = [
-  '/koma/band.jpg',
+const gallery: readonly [string, string] = [
   '/albums/dergus.jpg',
   '/albums/kulilka-azadi.jpg',
 ];
@@ -49,7 +48,6 @@ export const members: Member[] = [
     gallery: [
       '/albums/kulilka-azadi.jpg',
       '/albums/dergus.jpg',
-      '/koma/band.jpg',
     ],
     featured: false,
   },

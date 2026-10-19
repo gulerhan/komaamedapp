@@ -93,7 +93,7 @@ export function MemberStory({
 
         <div className="mt-20">
           <h2 className="text-xs tracking-[0.28em] text-gold uppercase">{ui('gallery')}</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
             {member.gallery.map((src, index) => (
               <Reveal key={src} delay={index * 0.08}>
                 <div className="relative aspect-square overflow-hidden rounded-[1.5rem] bg-bg-surface">
@@ -101,7 +101,7 @@ export function MemberStory({
                     src={src}
                     alt={`${t('name')} ${index + 1}`}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               </Reveal>
