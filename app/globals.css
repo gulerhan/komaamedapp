@@ -133,6 +133,7 @@ body {
   cursor: grabbing;
   transition: none;
   user-select: none;
+  will-change: transform;
   transform: translate(calc(8% + var(--vinyl-x)), var(--vinyl-y));
 }
 
@@ -142,19 +143,16 @@ body {
   touch-action: manipulation;
 }
 
-.vinyl-dock:hover,
-.vinyl-dock:focus-within {
-  transform: translate(calc(2% + var(--vinyl-x)), var(--vinyl-y));
+@media (hover: hover) and (pointer: fine) {
+  .vinyl-dock:hover,
+  .vinyl-dock:focus-within {
+    transform: translate(calc(2% + var(--vinyl-x)), var(--vinyl-y));
+  }
 }
 
 @media (max-width: 767px) {
   .vinyl-dock {
     transform: translate(calc(4% + var(--vinyl-x)), var(--vinyl-y));
-  }
-
-  .vinyl-dock:hover,
-  .vinyl-dock:focus-within {
-    transform: translate(var(--vinyl-x), var(--vinyl-y));
   }
 
   .vinyl-dock.is-dragging,

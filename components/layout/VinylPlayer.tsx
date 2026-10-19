@@ -114,11 +114,11 @@ export function VinylPlayer() {
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [offset, setOffset] = useState<VinylOffset>(() =>
+  const [dragging, setDragging] = useState(false);
+  const offsetRef = useRef<VinylOffset>(
     typeof window === 'undefined' ? { x: 0, y: 0 } : readVinylOffset(),
   );
-  const [dragging, setDragging] = useState(false);
-  const offsetRef = useRef<VinylOffset>(offset);
+  const dockRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<{
     pointerId: number;
     startX: number;
@@ -127,8 +127,10 @@ export function VinylPlayer() {
     originY: number;
     startLeft: number;
     startTop: number;
-    width: number;
-    height: number;
+    minLeft: number;
+    minTop: number;
+    maxLeft: number;
+    maxTop: number;
   } | null>(null);
 
   useEffect(() => {
@@ -147,10 +149,15 @@ export function VinylPlayer() {
   const loading = activated && !ready;
   const showDismiss = !fineHover || hovered || dragging;
 
-  const applyOffset = useCallback((next: VinylOffset) => {
+  const paintOffset = useCallback((next: VinylOffset) => {
     offsetRef.current = next;
-    setOffset(next);
+    const dock = dockRef.current;
+    if (!dock) return;
+    dock.style.setProperty('--vinyl-x', `${next.x}px`);
+    dock.style.setProperty('--vinyl-y', `${next.y}px`);
   }, []);
+
+  const applyOffset = paintOffset;
 
   useEffect(() => {
     if (!visible) return;
@@ -175,12 +182,16 @@ export function VinylPlayer() {
     if (event.button !== 0) return;
     const target = event.target as HTMLElement | null;
     if (target?.closest('button, a')) return;
-    const rect = event.currentTarget.getBoundingClientRect();
+    const dock = event.currentTarget;
+    const rect = dock.getBoundingClientRect();
+    dock.classList.add('is-dragging');
     try {
-      event.currentTarget.setPointerCapture(event.pointerId);
+      dock.setPointerCapture(event.pointerId);
     } catch {
       /* Pointer capture needs a real user gesture. */
     }
+    const minLeft = 8;
+    const minTop = headerBottom();
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
@@ -189,8 +200,10 @@ export function VinylPlayer() {
       originY: offsetRef.current.y,
       startLeft: rect.left,
       startTop: rect.top,
-      width: rect.width,
-      height: rect.height,
+      minLeft,
+      minTop,
+      maxLeft: Math.max(minLeft, window.innerWidth - rect.width - 8),
+      maxTop: Math.max(minTop, window.innerHeight - rect.height - 8),
     };
     setDragging(true);
   }, []);
@@ -198,22 +211,25 @@ export function VinylPlayer() {
   const onDockPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
-    const minLeft = 8;
-    const minTop = headerBottom();
-    const maxLeft = Math.max(minLeft, window.innerWidth - drag.width - 8);
-    const maxTop = Math.max(minTop, window.innerHeight - drag.height - 8);
-    const left = Math.min(maxLeft, Math.max(minLeft, drag.startLeft + (event.clientX - drag.startX)));
-    const top = Math.min(maxTop, Math.max(minTop, drag.startTop + (event.clientY - drag.startY)));
-    applyOffset({
+    const left = Math.min(
+      drag.maxLeft,
+      Math.max(drag.minLeft, drag.startLeft + (event.clientX - drag.startX)),
+    );
+    const top = Math.min(
+      drag.maxTop,
+      Math.max(drag.minTop, drag.startTop + (event.clientY - drag.startY)),
+    );
+    paintOffset({
       x: drag.originX + (left - drag.startLeft),
       y: drag.originY + (top - drag.startTop),
     });
-  }, [applyOffset]);
+  }, [paintOffset]);
 
   const endDockDrag = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     dragRef.current = null;
+    event.currentTarget.classList.remove('is-dragging');
     setDragging(false);
     writeVinylOffset(offsetRef.current);
     try {
@@ -495,16 +511,14 @@ export function VinylPlayer() {
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
             <div
+              ref={(node) => {
+                dockRef.current = node;
+                if (node) paintOffset(offsetRef.current);
+              }}
               className={cn(
                 'vinyl-dock group pointer-events-auto relative flex items-center',
                 dragging && 'is-dragging',
               )}
-              style={
-                {
-                  '--vinyl-x': `${offset.x}px`,
-                  '--vinyl-y': `${offset.y}px`,
-                } as React.CSSProperties
-              }
               onPointerDown={onDockPointerDown}
               onPointerMove={onDockPointerMove}
               onPointerUp={endDockDrag}
