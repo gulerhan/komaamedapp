@@ -118,23 +118,28 @@ body {
   animation: particle linear infinite;
 }
 
+.vinyl-peek {
+  transform: translate3d(8%, 0, 0);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .vinyl-dock {
   --vinyl-x: 0px;
   --vinyl-y: 0px;
-  transform: translate(calc(8% + var(--vinyl-x)), var(--vinyl-y));
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(var(--vinyl-x), var(--vinyl-y), 0);
+  will-change: transform;
   cursor: grab;
   touch-action: none;
 }
 
-.vinyl-dock.is-dragging,
-.vinyl-dock.is-dragging:hover,
-.vinyl-dock.is-dragging:focus-within {
+.vinyl-dock.is-dragging {
   cursor: grabbing;
-  transition: none;
   user-select: none;
-  will-change: transform;
-  transform: translate(calc(8% + var(--vinyl-x)), var(--vinyl-y));
+}
+
+.vinyl-dock.is-closing .vinyl-disc,
+.vinyl-dock.is-closing .vinyl-disc.is-playing {
+  animation-play-state: paused;
 }
 
 .vinyl-dock button,
@@ -144,21 +149,15 @@ body {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .vinyl-dock:hover,
-  .vinyl-dock:focus-within {
-    transform: translate(calc(2% + var(--vinyl-x)), var(--vinyl-y));
+  .vinyl-peek:hover,
+  .vinyl-peek:focus-within {
+    transform: translate3d(2%, 0, 0);
   }
 }
 
 @media (max-width: 767px) {
-  .vinyl-dock {
-    transform: translate(calc(4% + var(--vinyl-x)), var(--vinyl-y));
-  }
-
-  .vinyl-dock.is-dragging,
-  .vinyl-dock.is-dragging:hover,
-  .vinyl-dock.is-dragging:focus-within {
-    transform: translate(calc(4% + var(--vinyl-x)), var(--vinyl-y));
+  .vinyl-peek {
+    transform: translate3d(4%, 0, 0);
   }
 }
 
@@ -284,6 +283,7 @@ body {
   }
 
   .vinyl-dock,
+  .vinyl-peek,
   .vinyl-arm {
     transition: none;
   }

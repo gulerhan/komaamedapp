@@ -114,7 +114,6 @@ export function VinylPlayer() {
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [dragging, setDragging] = useState(false);
   const offsetRef = useRef<VinylOffset>(
     typeof window === 'undefined' ? { x: 0, y: 0 } : readVinylOffset(),
   );
@@ -147,7 +146,7 @@ export function VinylPlayer() {
 
   const track = spotifyTracks[index];
   const loading = activated && !ready;
-  const showDismiss = !fineHover || hovered || dragging;
+  const showDismiss = !fineHover || hovered;
 
   const paintOffset = useCallback((next: VinylOffset) => {
     offsetRef.current = next;
@@ -205,7 +204,6 @@ export function VinylPlayer() {
       maxLeft: Math.max(minLeft, window.innerWidth - rect.width - 8),
       maxTop: Math.max(minTop, window.innerHeight - rect.height - 8),
     };
-    setDragging(true);
   }, []);
 
   const onDockPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
@@ -230,7 +228,6 @@ export function VinylPlayer() {
     if (!drag || drag.pointerId !== event.pointerId) return;
     dragRef.current = null;
     event.currentTarget.classList.remove('is-dragging');
-    setDragging(false);
     writeVinylOffset(offsetRef.current);
     try {
       if (event.currentTarget.hasPointerCapture(event.pointerId)) {
@@ -380,11 +377,14 @@ export function VinylPlayer() {
       pendingPlayRef.current = false;
       playArmedRef.current = false;
       clearPlayRetries();
-      controllersRef.current.forEach((controller) => {
-        if (controller) pausePlayback(controller);
-      });
+      dockRef.current?.classList.add('is-closing');
       setPlaying(false);
       setVinylOpen(false);
+      window.requestAnimationFrame(() => {
+        controllersRef.current.forEach((controller) => {
+          if (controller) pausePlayback(controller);
+        });
+      });
     },
     [clearPlayRetries],
   );
@@ -499,26 +499,24 @@ export function VinylPlayer() {
         className="pointer-events-none fixed top-0 left-0 -z-10 h-px w-px overflow-hidden opacity-0"
         aria-hidden="true"
       />
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {visible === null ? null : visible ? (
           <motion.aside
             key="koma-vinyl"
             className="pointer-events-none fixed right-0 bottom-3 z-40 sm:bottom-5 md:top-1/2 md:bottom-auto md:-translate-y-1/2"
             aria-label={t('label')}
-            initial={{ x: 56, scale: 0.92 }}
-            animate={{ x: 0, scale: 1 }}
-            exit={{ x: 72, opacity: 0, scale: 0.82 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ x: 56, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 56, opacity: 0 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
           >
+            <div className="vinyl-peek">
             <div
               ref={(node) => {
                 dockRef.current = node;
                 if (node) paintOffset(offsetRef.current);
               }}
-              className={cn(
-                'vinyl-dock group pointer-events-auto relative flex items-center',
-                dragging && 'is-dragging',
-              )}
+              className="vinyl-dock group pointer-events-auto relative flex items-center"
               onPointerDown={onDockPointerDown}
               onPointerMove={onDockPointerMove}
               onPointerUp={endDockDrag}
@@ -625,6 +623,7 @@ export function VinylPlayer() {
                 </div>
               </div>
             </div>
+            </div>
           </motion.aside>
         ) : (
           <motion.button
@@ -633,10 +632,10 @@ export function VinylPlayer() {
             className="fixed right-3 bottom-3 z-40 inline-flex size-11 items-center justify-center rounded-full border border-gold/45 bg-bg/85 text-gold shadow-[0_10px_30px_rgba(0,0,0,0.4)] backdrop-blur-md transition-colors hover:bg-gold hover:text-bg sm:bottom-5 md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:right-4"
             onClick={restore}
             aria-label={t('restore')}
-            initial={{ x: 28, scale: 0.8 }}
-            animate={{ x: 0, scale: 1 }}
-            exit={{ x: 28, opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 20, opacity: 0 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
             <Disc3 className="size-5" strokeWidth={1.75} />
           </motion.button>
