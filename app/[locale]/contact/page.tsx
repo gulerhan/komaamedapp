@@ -43,12 +43,6 @@ export default async function ContactPage({
             >
               {siteConfig.email}
             </a>
-            <a
-              href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
-              className="text-gold underline-offset-4 hover:underline"
-            >
-              {siteConfig.phone}
-            </a>
           </div>
         </div>
         <Reveal delay={0.1}>
