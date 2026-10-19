@@ -93,15 +93,15 @@ export function MemberStory({
 
         <div className="mt-20">
           <h2 className="text-xs tracking-[0.28em] text-gold uppercase">{ui('gallery')}</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="mt-8 grid max-w-xl grid-cols-2 gap-4">
             {member.gallery.map((src, index) => (
               <Reveal key={src} delay={index * 0.08}>
-                <div className="relative aspect-square overflow-hidden rounded-[1.5rem] bg-bg-surface">
+                <div className="relative aspect-square overflow-hidden rounded-[1.25rem] bg-bg-surface">
                   <SharpImage
                     src={src}
                     alt={`${t('name')} ${index + 1}`}
                     fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 640px) 50vw, 288px"
                   />
                 </div>
               </Reveal>
