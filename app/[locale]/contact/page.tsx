@@ -37,7 +37,7 @@ export default async function ContactPage({
       <Container className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <PageHero namespace="Contact" />
-          <div className="mt-8 flex flex-col items-start">
+          <div className="mt-8">
             <a
               href={`mailto:${siteConfig.email}`}
               className="text-gold underline-offset-4 hover:underline"
@@ -49,13 +49,20 @@ export default async function ContactPage({
               alt="SMS Müzik Organizasyon"
               width={446}
               height={502}
-              className="mt-8 h-auto w-40"
+              className="mt-8 hidden h-auto w-40 lg:block"
             />
           </div>
         </div>
         <Reveal delay={0.1}>
           <ContactForm />
         </Reveal>
+        <SharpImage
+          src="/partners/sms-muzik.png"
+          alt="SMS Müzik Organizasyon"
+          width={446}
+          height={502}
+          className="mx-auto h-auto w-40 lg:hidden"
+        />
       </Container>
     </div>
   );
