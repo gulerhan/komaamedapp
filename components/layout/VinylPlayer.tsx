@@ -20,7 +20,6 @@ import { spotifyTrackUri, spotifyTracks } from '@/lib/spotify';
 
 const STORAGE_KEY = 'koma-vinyl-dismissed';
 const OFFSET_KEY = 'koma-vinyl-offset';
-const COMPACT_QUERY = '(max-width: 767px)';
 
 type VinylOffset = { x: number; y: number };
 
@@ -65,13 +64,10 @@ function subscribeVinyl(onStoreChange: () => void) {
 
 function vinylIsOpen() {
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
-    if (raw === '1') return false;
-    if (raw === '0') return true;
+    return sessionStorage.getItem(STORAGE_KEY) !== '1';
   } catch {
-    /* Safari private mode can block storage */
+    return true;
   }
-  return !window.matchMedia(COMPACT_QUERY).matches;
 }
 
 function setVinylOpen(open: boolean) {
