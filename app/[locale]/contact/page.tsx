@@ -4,6 +4,7 @@ import { ContactForm } from '@/components/sections/ContactForm';
 import { PageHero } from '@/components/sections/PageHero';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
+import { SharpImage } from '@/components/ui/SharpImage';
 import { buildMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/site';
 import { toLocale } from '@/lib/locale';
@@ -36,13 +37,20 @@ export default async function ContactPage({
       <Container className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <PageHero namespace="Contact" />
-          <div className="mt-8 flex flex-col items-start gap-2">
+          <div className="mt-8 flex flex-col items-start">
             <a
               href={`mailto:${siteConfig.email}`}
               className="text-gold underline-offset-4 hover:underline"
             >
               {siteConfig.email}
             </a>
+            <SharpImage
+              src="/partners/sms-muzik.png"
+              alt="SMS Müzik Organizasyon"
+              width={446}
+              height={502}
+              className="mt-8 h-auto w-40"
+            />
           </div>
         </div>
         <Reveal delay={0.1}>
