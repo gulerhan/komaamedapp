@@ -89,11 +89,11 @@ export function SiteFooter() {
           <Link href="/about-us" className="hover:text-gold">
             {nav('members')}
           </Link>
-          <Link href="/products" className="hover:text-gold">
-            {nav('products')}
-          </Link>
           <Link href="/story" className="hover:text-gold">
             {nav('about')}
+          </Link>
+          <Link href="/products" className="hover:text-gold">
+            {nav('products')}
           </Link>
           <Link href="/contact" className="hover:text-gold">
             {nav('contact')}

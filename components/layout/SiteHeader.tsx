@@ -12,8 +12,8 @@ import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher';
 const links = [
   { href: '/', key: 'home' as const },
   { href: '/about-us', key: 'members' as const },
-  { href: '/products', key: 'products' as const },
   { href: '/story', key: 'about' as const },
+  { href: '/products', key: 'products' as const },
   { href: '/contact', key: 'contact' as const },
 ];
 
