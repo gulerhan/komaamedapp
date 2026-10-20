@@ -5,6 +5,7 @@ import { SharpImage } from '@/components/ui/SharpImage';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
 import { products } from '@/data/products';
 import {
   productCategories,
@@ -107,9 +108,18 @@ export function ProductsCatalog() {
       <Dialog.Root open={Boolean(active)} onOpenChange={(open) => !open && openProduct(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm" />
-          <Dialog.Content className="fixed inset-y-0 right-0 z-[70] w-full max-w-lg overflow-y-auto border-l border-border bg-bg-elevated p-8 shadow-2xl">
+          <Dialog.Content className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-lg flex-col border-l border-border bg-bg-elevated shadow-2xl">
             {active ? (
               <>
+                <div className="flex shrink-0 px-6 pt-6">
+                  <Dialog.Close
+                    aria-label={t('close')}
+                    className="inline-flex size-10 items-center justify-center rounded-full border border-border text-fg transition-colors hover:border-gold hover:text-gold"
+                  >
+                    <X size={18} />
+                  </Dialog.Close>
+                </div>
+                <div className="overflow-y-auto px-8 pb-8">
                 <Dialog.Title className="font-display text-4xl">
                   {content(`${active.slug}.name`)}
                 </Dialog.Title>
@@ -194,6 +204,7 @@ export function ProductsCatalog() {
                   <Dialog.Close className={buttonStyles({ variant: 'outline' })}>
                     {t('close')}
                   </Dialog.Close>
+                </div>
                 </div>
               </>
             ) : null}
