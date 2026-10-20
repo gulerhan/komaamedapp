@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SharpImage } from '@/components/ui/SharpImage';
 import { useTranslations } from 'next-intl';
+import { useLenis } from 'lenis/react';
 import { AnimatePresence, motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
@@ -23,10 +24,19 @@ export function ProductsCatalog() {
   const t = useTranslations('ProductsPage');
   const cats = useTranslations('Categories');
   const content = useTranslations('ProductsContent');
+  const lenis = useLenis();
   const [filter, setFilter] = useState<Filter>('all');
   const [active, setActive] = useState<Product | null>(null);
   const [size, setSize] = useState<string | null>(null);
   const [color, setColor] = useState<ProductColor | null>(null);
+
+  useEffect(() => {
+    if (!lenis || !active) return;
+    lenis.stop();
+    return () => {
+      lenis.start();
+    };
+  }, [active, lenis]);
 
   function openProduct(product: Product | null) {
     setActive(product);
@@ -108,18 +118,16 @@ export function ProductsCatalog() {
       <Dialog.Root open={Boolean(active)} onOpenChange={(open) => !open && openProduct(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm" />
-          <Dialog.Content className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-lg flex-col border-l border-border bg-bg-elevated shadow-2xl outline-none">
+          <Dialog.Content
+            data-lenis-prevent
+            className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-lg flex-col border-l border-border bg-bg-elevated shadow-2xl outline-none"
+          >
             {active ? (
               <>
                 <div className="flex shrink-0 items-start gap-6 px-8 pt-8">
-                  <div className="min-w-0 flex-1">
-                    <Dialog.Title className="font-display text-4xl leading-none">
-                      {content(`${active.slug}.name`)}
-                    </Dialog.Title>
-                    <Dialog.Description className="mt-3 text-fg-muted">
-                      {content(`${active.slug}.description`)}
-                    </Dialog.Description>
-                  </div>
+                  <Dialog.Title className="min-w-0 flex-1 font-display text-4xl leading-none">
+                    {content(`${active.slug}.name`)}
+                  </Dialog.Title>
                   <Dialog.Close
                     aria-label={t('close')}
                     className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-border text-fg/70 transition-colors duration-300 hover:border-gold hover:text-gold"
@@ -127,7 +135,13 @@ export function ProductsCatalog() {
                     <X size={15} strokeWidth={1.75} />
                   </Dialog.Close>
                 </div>
-                <div className="min-h-0 flex-1 overflow-y-auto px-8 pt-8 pb-8">
+                <div
+                  data-lenis-prevent
+                  className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-8 pt-3 pb-8"
+                >
+                <Dialog.Description className="text-fg-muted">
+                  {content(`${active.slug}.description`)}
+                </Dialog.Description>
                 <div className="product-stage relative mt-8 aspect-square overflow-hidden rounded-[1.5rem]">
                   <SharpImage
                     src={color?.image ?? active.image}
